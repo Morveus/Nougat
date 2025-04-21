@@ -1,0 +1,25 @@
+.card-title {
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+}
+
+.card-text {
+    color: #cccccc !important;
+}
+
+.text-muted {
+    color: #a0a0a0 !important;
+}
+
+.platform-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+    object-fit: contain;
+}
+
+.platform-icon:hover {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+} 

@@ -1,5 +1,6 @@
 {% extends 'games/base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block extra_css %}
 <style>
@@ -224,7 +225,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ game.title }}</h5>
                         <div class="mb-2">
-                            <span class="badge bg-secondary platform-badge">{{ game.get_platform_display }}</span>
+                            <img src="{% static 'icons/'|add:game.platform|lower|cut:' '|add:'.png' %}" 
+                                 alt="{{ game.get_platform_display }}" 
+                                 class="platform-icon"
+                                 title="{{ game.get_platform_display }}">
                             <span class="badge bg-info genre-badge">{{ game.genre }}</span>
                             {% if game.lan_playable %}
                             <span class="badge bg-success lan-badge">{% trans "LAN" %}</span>
