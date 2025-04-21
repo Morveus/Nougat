@@ -11,8 +11,8 @@
     
     .filter-sidebar {
         width: 250px;
-        background-color: #f8f9fa;
-        border-right: 1px solid #dee2e6;
+        background-color: var(--bg-darker);
+        border-right: 1px solid var(--border-dark);
         padding: 20px;
         overflow-y: auto;
     }
@@ -30,8 +30,8 @@
         width: 100%;
         max-width: 600px;
         height: 100vh;
-        background: white;
-        box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+        background: var(--bg-darker);
+        box-shadow: -2px 0 5px rgba(0,0,0,0.3);
         z-index: 1000;
         transition: right 0.3s ease-in-out;
         overflow-y: auto;
@@ -50,10 +50,13 @@
         cursor: pointer;
         transition: transform 0.2s ease;
         margin-bottom: 15px;
+        background-color: var(--card-bg);
+        border-color: var(--card-border);
     }
     
     .game-card:hover {
         transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
     
     .game-image {
@@ -67,28 +70,38 @@
     
     .filter-section h5 {
         margin-bottom: 15px;
-        color: #495057;
+        color: var(--text-light);
+    }
+    
+    .form-check-input {
+        background-color: var(--bg-dark);
+        border-color: var(--border-dark);
+    }
+    
+    .form-check-input:checked {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+    
+    .form-check-label {
+        color: var(--text-light);
     }
     
     .platform-badge {
         margin-right: 5px;
         margin-bottom: 5px;
+        background-color: #2a2a2a;
     }
     
     .genre-badge {
         margin-right: 5px;
         margin-bottom: 5px;
+        background-color: #1a4b8c;
     }
     
     .lan-badge {
         margin-left: 5px;
-    }
-    
-    @media (max-width: 768px) {
-        .game-detail-panel {
-            width: 100%;
-            max-width: 100%;
-        }
+        background-color: #1a5c1a;
     }
     
     .footer {
@@ -96,10 +109,10 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background-color: #f8f9fa;
+        background-color: var(--bg-darker);
         padding: 1rem;
         text-align: center;
-        border-top: 1px solid #dee2e6;
+        border-top: 1px solid var(--border-dark);
         z-index: 100;
     }
     
@@ -110,6 +123,19 @@
     
     .footer a:hover {
         text-decoration: underline;
+    }
+    
+    .alert-info {
+        background-color: #1a3a5c;
+        border-color: #2a4a6c;
+        color: var(--text-light);
+    }
+    
+    @media (max-width: 768px) {
+        .game-detail-panel {
+            width: 100%;
+            max-width: 100%;
+        }
     }
 </style>
 {% endblock %}
