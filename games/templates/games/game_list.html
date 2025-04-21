@@ -225,7 +225,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ game.title }}</h5>
                         <div class="mb-2">
-                            <img src="{% static 'icons/'|add:game.platform|lower|cut:' '|add:'.png' %}" 
+                            <img src="{% static 'games/icons/'|add:game.platform|lower|cut:' '|add:'.png' %}" 
                                  alt="{{ game.get_platform_display }}" 
                                  class="platform-icon"
                                  title="{{ game.get_platform_display }}">
