@@ -1,6 +1,5 @@
 ⚠️ **WARNING: This project is currently a work in progress. Features may be incomplete or subject to change.** ⚠️
 
-
 # Game Collection Manager
 
 A Django-based web application for managing your game collection.
