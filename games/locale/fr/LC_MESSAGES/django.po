@@ -1,0 +1,138 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-21 15:19+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: .\games\templates\games\base.html:7
+msgid "Game Collection Manager"
+msgstr ""
+
+#: .\games\templates\games\base.html:14
+msgid "Game Collection"
+msgstr ""
+
+#: .\games\templates\games\base.html:21
+msgid "Games"
+msgstr ""
+
+#: .\games\templates\games\base.html:25
+#: .\games\templates\games\game_form.html:27
+msgid "Add Game"
+msgstr ""
+
+#: .\games\templates\games\base.html:32
+msgid "Language"
+msgstr ""
+
+#: .\games\templates\games\base.html:57
+msgid "Admin"
+msgstr ""
+
+#: .\games\templates\games\base.html:62
+msgid "Logout"
+msgstr ""
+
+#: .\games\templates\games\base.html:68
+msgid "Login"
+msgstr ""
+
+#: .\games\templates\games\game_confirm_delete.html:9
+msgid "Delete Game"
+msgstr ""
+
+#: .\games\templates\games\game_confirm_delete.html:12
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#: .\games\templates\games\game_confirm_delete.html:16
+#: .\games\templates\games\game_list.html:67
+msgid "Delete"
+msgstr ""
+
+#: .\games\templates\games\game_confirm_delete.html:19
+#: .\games\templates\games\game_form.html:31
+msgid "Cancel"
+msgstr ""
+
+#: .\games\templates\games\game_form.html:12
+msgid "Edit Game"
+msgstr ""
+
+#: .\games\templates\games\game_form.html:14
+#: .\games\templates\games\game_list.html:9
+msgid "Add New Game"
+msgstr ""
+
+#: .\games\templates\games\game_form.html:25
+msgid "Save Changes"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:6
+msgid "My Games"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:19
+msgid "Title"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:20
+msgid "Platform"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:21
+msgid "Genre"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:22
+msgid "Release Date"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:23
+msgid "Publisher"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:24
+msgid "Status"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:25
+msgid "Rating"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:27
+msgid "Actions"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:41
+msgid "Completed"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:43
+msgid "In Progress"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:64
+msgid "Edit"
+msgstr ""
+
+#: .\games\templates\games\game_list.html:80
+msgid "No games in your collection yet."
+msgstr ""
+
+#: .\games\templates\games\game_list.html:82
+msgid "Add your first game!"
+msgstr ""
