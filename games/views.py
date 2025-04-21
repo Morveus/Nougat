@@ -26,6 +26,9 @@ class GameListView(ListView):
         context['platforms'] = sorted(set(game.platform for game in context['games']))
         # Get all genres
         context['genres'] = Genre.objects.all().order_by('name')
+        # Add has_image filter for admin users
+        if self.request.user.is_staff:
+            context['show_image_filter'] = True
         return context
 
 class GameDetailView(DetailView):

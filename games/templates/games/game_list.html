@@ -155,6 +155,18 @@
                 </label>
             </div>
         </div>
+        
+        {% if show_image_filter %}
+        <div class="filter-section">
+            <h5>{% trans "Image Status" %}</h5>
+            <div class="form-check">
+                <input class="form-check-input image-filter" type="checkbox" id="image-filter">
+                <label class="form-check-label" for="image-filter">
+                    {% trans "Show only games without images" %}
+                </label>
+            </div>
+        </div>
+        {% endif %}
     </div>
     
     <!-- Game List -->
@@ -173,7 +185,8 @@
             <div class="col-md-6 col-lg-4 game-item" 
                  data-platform="{{ game.platform }}"
                  data-genre="{{ game.genre.id }}"
-                 data-lan="{{ game.lan_playable|lower }}">
+                 data-lan="{{ game.lan_playable|lower }}"
+                 data-has-image="{% if game.image %}true{% else %}false{% endif %}">
                 <div class="card game-card" data-game-id="{{ game.id }}">
                     {% if game.image %}
                     <img src="{{ game.image.url }}" class="card-img-top game-image" alt="{{ game.title }}">
@@ -241,33 +254,77 @@
 let activeFilters = {
     platforms: [],
     genres: [],
-    lan: false
+    lan: false,
+    noImage: false
 };
 
-// Initialize filters from URL parameters
+// Initialize filters from URL parameters and localStorage
 document.addEventListener('DOMContentLoaded', function() {
+    // Try to get filters from localStorage first
+    const savedFilters = localStorage.getItem('gameFilters');
+    if (savedFilters) {
+        try {
+            const parsedFilters = JSON.parse(savedFilters);
+            activeFilters = parsedFilters;
+            
+            // Apply saved filters to checkboxes
+            activeFilters.platforms.forEach(platform => {
+                const checkbox = document.querySelector(`#platform-${platform}`);
+                if (checkbox) checkbox.checked = true;
+            });
+            
+            activeFilters.genres.forEach(genre => {
+                const checkbox = document.querySelector(`#genre-${genre}`);
+                if (checkbox) checkbox.checked = true;
+            });
+            
+            if (activeFilters.lan) {
+                const lanCheckbox = document.querySelector('#lan-filter');
+                if (lanCheckbox) lanCheckbox.checked = true;
+            }
+            
+            if (activeFilters.noImage) {
+                const imageCheckbox = document.querySelector('#image-filter');
+                if (imageCheckbox) imageCheckbox.checked = true;
+            }
+        } catch (e) {
+            console.error('Error loading saved filters:', e);
+        }
+    }
+    
+    // Then check URL parameters (they take precedence over localStorage)
     const urlParams = new URLSearchParams(window.location.search);
     const platforms = urlParams.get('platforms');
     const genres = urlParams.get('genres');
     const lan = urlParams.get('lan');
+    const noImage = urlParams.get('noImage');
     
     if (platforms) {
         activeFilters.platforms = platforms.split(',');
         activeFilters.platforms.forEach(platform => {
-            document.querySelector(`#platform-${platform}`).checked = true;
+            const checkbox = document.querySelector(`#platform-${platform}`);
+            if (checkbox) checkbox.checked = true;
         });
     }
     
     if (genres) {
         activeFilters.genres = genres.split(',');
         activeFilters.genres.forEach(genre => {
-            document.querySelector(`#genre-${genre}`).checked = true;
+            const checkbox = document.querySelector(`#genre-${genre}`);
+            if (checkbox) checkbox.checked = true;
         });
     }
     
     if (lan === 'true') {
         activeFilters.lan = true;
-        document.querySelector('#lan-filter').checked = true;
+        const lanCheckbox = document.querySelector('#lan-filter');
+        if (lanCheckbox) lanCheckbox.checked = true;
+    }
+    
+    if (noImage === 'true') {
+        activeFilters.noImage = true;
+        const imageCheckbox = document.querySelector('#image-filter');
+        if (imageCheckbox) imageCheckbox.checked = true;
     }
     
     filterGames();
@@ -282,6 +339,7 @@ document.querySelectorAll('.platform-filter').forEach(filter => {
             activeFilters.platforms = activeFilters.platforms.filter(p => p !== this.value);
         }
         updateUrl();
+        saveFilters();
         filterGames();
     });
 });
@@ -294,6 +352,7 @@ document.querySelectorAll('.genre-filter').forEach(filter => {
             activeFilters.genres = activeFilters.genres.filter(g => g !== this.value);
         }
         updateUrl();
+        saveFilters();
         filterGames();
     });
 });
@@ -301,21 +360,37 @@ document.querySelectorAll('.genre-filter').forEach(filter => {
 document.querySelector('#lan-filter').addEventListener('change', function() {
     activeFilters.lan = this.checked;
     updateUrl();
+    saveFilters();
+    filterGames();
+});
+
+document.querySelector('#image-filter')?.addEventListener('change', function() {
+    activeFilters.noImage = this.checked;
+    updateUrl();
+    saveFilters();
     filterGames();
 });
 
 function filterGames() {
     const gameItems = document.querySelectorAll('.game-item');
+    console.log('Filtering games with settings:', activeFilters);
+    
     gameItems.forEach(item => {
         const platform = item.dataset.platform;
         const genre = item.dataset.genre;
         const lan = item.dataset.lan;
+        const hasImage = item.dataset.hasImage === 'true';
+        
+        console.log('Game:', item.querySelector('.card-title').textContent, 'Has image:', hasImage);
         
         const platformMatch = activeFilters.platforms.length === 0 || activeFilters.platforms.includes(platform);
         const genreMatch = activeFilters.genres.length === 0 || activeFilters.genres.includes(genre);
         const lanMatch = !activeFilters.lan || lan === 'true';
+        const imageMatch = !activeFilters.noImage || !hasImage;
         
-        item.style.display = platformMatch && genreMatch && lanMatch ? 'block' : 'none';
+        const shouldShow = platformMatch && genreMatch && lanMatch && imageMatch;
+        console.log('Should show:', shouldShow);
+        item.style.display = shouldShow ? 'block' : 'none';
     });
 }
 
@@ -330,7 +405,14 @@ function updateUrl() {
     if (activeFilters.lan) {
         params.set('lan', 'true');
     }
+    if (activeFilters.noImage) {
+        params.set('noImage', 'true');
+    }
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+}
+
+function saveFilters() {
+    localStorage.setItem('gameFilters', JSON.stringify(activeFilters));
 }
 
 // Game detail panel functionality
