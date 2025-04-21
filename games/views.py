@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, FormView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
@@ -19,6 +19,24 @@ class GameListView(ListView):
     model = Game
     template_name = 'games/game_list.html'
     context_object_name = 'games'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get unique platforms from games
+        context['platforms'] = sorted(set(game.platform for game in context['games']))
+        # Get all genres
+        context['genres'] = Genre.objects.all().order_by('name')
+        return context
+
+class GameDetailView(DetailView):
+    model = Game
+    template_name = 'games/game_detail.html'
+    context_object_name = 'game'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        return render(request, self.template_name, context)
 
 class GameCreateView(LoginRequiredMixin, CreateView):
     model = Game

@@ -1,86 +1,372 @@
 {% extends 'games/base.html' %}
 {% load i18n %}
 
+{% block extra_css %}
+<style>
+    .game-list-container {
+        display: flex;
+        height: calc(100vh - 56px); /* Subtract navbar height */
+        overflow: hidden;
+    }
+    
+    .filter-sidebar {
+        width: 250px;
+        background-color: #f8f9fa;
+        border-right: 1px solid #dee2e6;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    
+    .game-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+    }
+    
+    .game-detail-panel {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        max-width: 600px;
+        height: 100vh;
+        background: white;
+        box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+        z-index: 1000;
+        transition: right 0.3s ease-in-out;
+        overflow-y: auto;
+    }
+    
+    .game-detail-panel.active {
+        right: 0;
+    }
+    
+    .game-detail-content {
+        padding: 2rem;
+        position: relative;
+    }
+    
+    .game-card {
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        margin-bottom: 15px;
+    }
+    
+    .game-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .game-image {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .filter-section {
+        margin-bottom: 20px;
+    }
+    
+    .filter-section h5 {
+        margin-bottom: 15px;
+        color: #495057;
+    }
+    
+    .platform-badge {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    
+    .genre-badge {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    
+    .lan-badge {
+        margin-left: 5px;
+    }
+    
+    @media (max-width: 768px) {
+        .game-detail-panel {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+    
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #f8f9fa;
+        padding: 1rem;
+        text-align: center;
+        border-top: 1px solid #dee2e6;
+        z-index: 100;
+    }
+    
+    .footer a {
+        color: #0d6efd;
+        text-decoration: none;
+    }
+    
+    .footer a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>{% trans "My Games" %}</h1>
-    {% if user.is_authenticated %}
-    <a href="{% url 'game-create' %}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i> {% trans "Add New Game" %}
-    </a>
-    {% endif %}
+<div class="game-list-container">
+    <!-- Filter Sidebar -->
+    <div class="filter-sidebar">
+        <div class="filter-section">
+            <h5>{% trans "Platforms" %}</h5>
+            <div class="platform-filters">
+                {% for platform in platforms %}
+                <div class="form-check">
+                    <input class="form-check-input platform-filter" type="checkbox" value="{{ platform }}" id="platform-{{ forloop.counter }}">
+                    <label class="form-check-label" for="platform-{{ forloop.counter }}">
+                        {{ platform }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h5>{% trans "Genres" %}</h5>
+            <div class="genre-filters">
+                {% for genre in genres %}
+                <div class="form-check">
+                    <input class="form-check-input genre-filter" type="checkbox" value="{{ genre.id }}" id="genre-{{ genre.id }}">
+                    <label class="form-check-label" for="genre-{{ genre.id }}">
+                        {{ genre.name }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="filter-section">
+            <h5>{% trans "LAN Playable" %}</h5>
+            <div class="form-check">
+                <input class="form-check-input lan-filter" type="checkbox" id="lan-filter">
+                <label class="form-check-label" for="lan-filter">
+                    {% trans "Show only LAN playable games" %}
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Game List -->
+    <div class="game-list">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>{% trans "My Games" %}</h2>
+            {% if user.is_authenticated %}
+            <a href="{% url 'game-create' %}" class="btn btn-primary">
+                <i class="bi bi-plus-lg"></i> {% trans "Add New Game" %}
+            </a>
+            {% endif %}
+        </div>
+        
+        <div class="row" id="game-list">
+            {% for game in games %}
+            <div class="col-md-6 col-lg-4 game-item" 
+                 data-platform="{{ game.platform }}"
+                 data-genre="{{ game.genre.id }}"
+                 data-lan="{{ game.lan_playable|lower }}">
+                <div class="card game-card" data-game-id="{{ game.id }}">
+                    {% if game.image %}
+                    <img src="{{ game.image.url }}" class="card-img-top game-image" alt="{{ game.title }}">
+                    {% else %}
+                    <div class="card-img-top game-image bg-light d-flex align-items-center justify-content-center">
+                        <i class="bi bi-controller fs-1 text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ game.title }}</h5>
+                        <div class="mb-2">
+                            <span class="badge bg-secondary platform-badge">{{ game.get_platform_display }}</span>
+                            <span class="badge bg-info genre-badge">{{ game.genre }}</span>
+                            {% if game.lan_playable %}
+                            <span class="badge bg-success lan-badge">{% trans "LAN" %}</span>
+                            {% endif %}
+                        </div>
+                        <p class="card-text text-muted small">
+                            {% if game.release_year %}
+                            {{ game.release_year }} •
+                            {% endif %}
+                            {% if game.number_of_players > 1 %}
+                            {{ game.number_of_players }} {% trans "players" %}
+                            {% else %}
+                            {% trans "Single player" %}
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    {% trans "No games found. Add your first game!" %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
-{% if games %}
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th>{% trans "Title" %}</th>
-                <th>{% trans "Platform" %}</th>
-                <th>{% trans "Genre" %}</th>
-                <th>{% trans "Release Date" %}</th>
-                <th>{% trans "Publisher" %}</th>
-                <th>{% trans "Status" %}</th>
-                <th>{% trans "Rating" %}</th>
-                {% if user.is_authenticated %}
-                <th>{% trans "Actions" %}</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for game in games %}
-            <tr>
-                <td>{{ game.title }}</td>
-                <td>{{ game.get_platform_display }}</td>
-                <td>{{ game.genre }}</td>
-                <td>{{ game.release_date|default:"-" }}</td>
-                <td>{{ game.publisher }}</td>
-                <td>
-                    {% if game.completed %}
-                    <span class="badge bg-success">{% trans "Completed" %}</span>
-                    {% else %}
-                    <span class="badge bg-warning">{% trans "In Progress" %}</span>
-                    {% endif %}
-                </td>
-                <td>
-                    {% if game.rating %}
-                    <span class="text-warning">
-                        {% for i in "12345"|make_list %}
-                        {% if forloop.counter <= game.rating %}
-                        <i class="bi bi-star-fill"></i>
-                        {% else %}
-                        <i class="bi bi-star"></i>
-                        {% endif %}
-                        {% endfor %}
-                    </span>
-                    {% else %}
-                    -
-                    {% endif %}
-                </td>
-                {% if user.is_authenticated %}
-                <td>
-                    <div class="btn-group">
-                        <a href="{% url 'game-update' game.pk %}" class="btn btn-sm btn-outline-primary" title="{% trans 'Edit' %}">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <a href="{% url 'game-delete' game.pk %}" class="btn btn-sm btn-outline-danger" title="{% trans 'Delete' %}">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </div>
-                </td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<!-- Game Detail Panel -->
+<div class="game-detail-panel">
+    <div class="game-detail-content">
+        <button class="btn btn-close position-absolute top-0 end-0 m-3" id="closeDetailPanel"></button>
+        <div id="gameDetailContent"></div>
+    </div>
 </div>
-{% else %}
-<div class="alert alert-info">
-    {% trans "No games in your collection yet." %}
-    {% if user.is_authenticated %}
-    <a href="{% url 'game-create' %}">{% trans "Add your first game!" %}</a>
-    {% endif %}
-</div>
-{% endif %}
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p class="mb-0">
+            &copy; Morveus {{ current_year }} - 
+            <a href="https://github.com/Morveus/Nougat" target="_blank" rel="noopener noreferrer">
+                GitHub
+            </a>
+        </p>
+    </div>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let activeFilters = {
+    platforms: [],
+    genres: [],
+    lan: false
+};
+
+// Initialize filters from URL parameters
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const platforms = urlParams.get('platforms');
+    const genres = urlParams.get('genres');
+    const lan = urlParams.get('lan');
+    
+    if (platforms) {
+        activeFilters.platforms = platforms.split(',');
+        activeFilters.platforms.forEach(platform => {
+            document.querySelector(`#platform-${platform}`).checked = true;
+        });
+    }
+    
+    if (genres) {
+        activeFilters.genres = genres.split(',');
+        activeFilters.genres.forEach(genre => {
+            document.querySelector(`#genre-${genre}`).checked = true;
+        });
+    }
+    
+    if (lan === 'true') {
+        activeFilters.lan = true;
+        document.querySelector('#lan-filter').checked = true;
+    }
+    
+    filterGames();
+});
+
+// Filter event listeners
+document.querySelectorAll('.platform-filter').forEach(filter => {
+    filter.addEventListener('change', function() {
+        if (this.checked) {
+            activeFilters.platforms.push(this.value);
+        } else {
+            activeFilters.platforms = activeFilters.platforms.filter(p => p !== this.value);
+        }
+        updateUrl();
+        filterGames();
+    });
+});
+
+document.querySelectorAll('.genre-filter').forEach(filter => {
+    filter.addEventListener('change', function() {
+        if (this.checked) {
+            activeFilters.genres.push(this.value);
+        } else {
+            activeFilters.genres = activeFilters.genres.filter(g => g !== this.value);
+        }
+        updateUrl();
+        filterGames();
+    });
+});
+
+document.querySelector('#lan-filter').addEventListener('change', function() {
+    activeFilters.lan = this.checked;
+    updateUrl();
+    filterGames();
+});
+
+function filterGames() {
+    const gameItems = document.querySelectorAll('.game-item');
+    gameItems.forEach(item => {
+        const platform = item.dataset.platform;
+        const genre = item.dataset.genre;
+        const lan = item.dataset.lan;
+        
+        const platformMatch = activeFilters.platforms.length === 0 || activeFilters.platforms.includes(platform);
+        const genreMatch = activeFilters.genres.length === 0 || activeFilters.genres.includes(genre);
+        const lanMatch = !activeFilters.lan || lan === 'true';
+        
+        item.style.display = platformMatch && genreMatch && lanMatch ? 'block' : 'none';
+    });
+}
+
+function updateUrl() {
+    const params = new URLSearchParams();
+    if (activeFilters.platforms.length > 0) {
+        params.set('platforms', activeFilters.platforms.join(','));
+    }
+    if (activeFilters.genres.length > 0) {
+        params.set('genres', activeFilters.genres.join(','));
+    }
+    if (activeFilters.lan) {
+        params.set('lan', 'true');
+    }
+    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+}
+
+// Game detail panel functionality
+const gameCards = document.querySelectorAll('.game-card');
+const detailPanel = document.querySelector('.game-detail-panel');
+const detailContent = document.getElementById('gameDetailContent');
+const closeButton = document.getElementById('closeDetailPanel');
+
+gameCards.forEach(card => {
+    card.addEventListener('click', function() {
+        const gameId = this.dataset.gameId;
+        fetch(`/games/${gameId}/detail/`)
+            .then(response => response.text())
+            .then(html => {
+                detailContent.innerHTML = html;
+                detailPanel.classList.add('active');
+            })
+            .catch(error => console.error('Error:', error));
+    });
+});
+
+closeButton.addEventListener('click', function() {
+    detailPanel.classList.remove('active');
+});
+
+// Close panel when clicking outside
+document.addEventListener('click', function(event) {
+    if (!detailPanel.contains(event.target) && !event.target.closest('.game-card')) {
+        detailPanel.classList.remove('active');
+    }
+});
+
+// Add current year to footer
+document.addEventListener('DOMContentLoaded', function() {
+    const currentYear = new Date().getFullYear();
+    document.querySelector('.footer p').innerHTML = document.querySelector('.footer p').innerHTML.replace('{{ current_year }}', currentYear);
+});
+</script>
 {% endblock %} 

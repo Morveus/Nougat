@@ -1,0 +1,59 @@
+{% load i18n %}
+
+<div class="p-4">
+    {% if game.image %}
+    <img src="{{ game.image.url }}" class="img-fluid rounded mb-3" alt="{{ game.title }}">
+    {% endif %}
+    
+    <h3>{{ game.title }}</h3>
+    
+    <div class="mb-3">
+        <span class="badge bg-secondary">{{ game.get_platform_display }}</span>
+        <span class="badge bg-info">{{ game.genre }}</span>
+        {% if game.lan_playable %}
+        <span class="badge bg-success">{% trans "LAN Playable" %}</span>
+        {% endif %}
+    </div>
+    
+    <div class="mb-3">
+        <h5>{% trans "Details" %}</h5>
+        <ul class="list-unstyled">
+            {% if game.release_year %}
+            <li><strong>{% trans "Release Year" %}:</strong> {{ game.release_year }}</li>
+            {% endif %}
+            <li>
+                <strong>{% trans "Players" %}:</strong>
+                {% if game.number_of_players > 1 %}
+                {{ game.number_of_players }} {% trans "players" %}
+                {% else %}
+                {% trans "Single player" %}
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+    
+    {% if game.description %}
+    <div class="mb-3">
+        <h5>{% trans "Description" %}</h5>
+        <p>{{ game.description }}</p>
+    </div>
+    {% endif %}
+    
+    {% if game.notes %}
+    <div class="mb-3">
+        <h5>{% trans "Notes" %}</h5>
+        <p>{{ game.notes }}</p>
+    </div>
+    {% endif %}
+    
+    {% if user.is_authenticated %}
+    <div class="mt-4">
+        <a href="{% url 'game-update' game.pk %}" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> {% trans "Edit" %}
+        </a>
+        <a href="{% url 'game-delete' game.pk %}" class="btn btn-outline-danger">
+            <i class="bi bi-trash"></i> {% trans "Delete" %}
+        </a>
+    </div>
+    {% endif %}
+</div> 
