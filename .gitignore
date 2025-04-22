@@ -53,3 +53,7 @@ locale/**/*.mo
 
 # Database
 database/
+
+# Static files
+staticfiles/
+

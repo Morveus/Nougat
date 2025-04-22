@@ -14,5 +14,7 @@ else
     python manage.py migrate
 fi
 
+python manage.py collectstatic --noinput 
+
 # Start server
 exec "$@" 
