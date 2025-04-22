@@ -120,3 +120,6 @@ msgstr "Jouable en LAN"
 
 msgid "Missing Images"
 msgstr "Images Manquantes"
+
+msgid "LAN Games"
+msgstr "Jeux LAN"

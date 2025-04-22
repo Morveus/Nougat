@@ -5,38 +5,39 @@
 {% block extra_css %}
 <style>
     .drag-drop-area {
-        border: 2px dashed #ccc;
-        border-radius: 4px;
-        padding: 20px;
+        border: 2px dashed #4a4a4a;
+        border-radius: 8px;
+        padding: 2rem;
         text-align: center;
-        background-color: #f8f9fa;
+        background-color: var(--input-bg);
         cursor: pointer;
         transition: all 0.3s ease;
+        margin-top: 0.5rem;
     }
     .drag-drop-area:hover {
-        border-color: #0d6efd;
-        background-color: #e9ecef;
+        border-color: #6c757d;
+        background-color: var(--input-focus-bg);
     }
     .drag-drop-area.dragover {
         border-color: #0d6efd;
-        background-color: #e9ecef;
+        background-color: var(--input-focus-bg);
     }
     .image-preview {
         max-width: 200px;
         max-height: 200px;
-        margin-top: 10px;
+        margin-top: 1rem;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
     .form-row {
         display: flex;
         flex-wrap: wrap;
-        margin-right: -5px;
-        margin-left: -5px;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
     }
     .form-group {
-        flex: 0 0 auto;
-        width: auto;
-        padding-right: 5px;
-        padding-left: 5px;
+        flex: 1;
+        min-width: 200px;
     }
     .ai-fill-button {
         margin-left: 10px;
@@ -45,15 +46,52 @@
         display: none;
         margin-left: 10px;
     }
+    
+    /* Card improvements */
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+        padding: 1.5rem;
+    }
+    .card-header h2 {
+        color: #ffffff;
+        font-size: 1.75rem;
+        margin: 0;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    .card-body {
+        padding: 2rem;
+    }
+    
+    /* Button improvements */
+    .btn {
+        padding: 0.5rem 1.5rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+    }
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+    .btn-outline-secondary {
+        color: #e0e0e0;
+        border-color: #6c757d;
+    }
+    .btn-outline-secondary:hover {
+        background-color: #6c757d;
+        color: #ffffff;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <div class="card">
             <div class="card-header">
-                <h2 class="mb-0">
+                <h2 class="page-title">
                     {% if form.instance.pk %}
                     {% trans "Edit Game" %}
                     {% else %}
@@ -64,24 +102,18 @@
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
+                    
+                    {# Title and Platform row #}
                     <div class="form-row">
                         <div class="form-group">
                             {{ form.title|as_crispy_field }}
                         </div>
                         <div class="form-group">
-                            <!-- <button type="button" id="ai-fill-button" class="btn btn-outline-primary ai-fill-button">
-                                <i class="bi bi-robot"></i> {% trans "AI Fill" %}
-                            </button> -->
-                            <div class="spinner-border text-primary loading-spinner" role="status">
-                                <span class="visually-hidden">{% trans "Loading..." %}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
                             {{ form.platform|as_crispy_field }}
                         </div>
                     </div>
+                    
+                    {# Genre, Release Year, and Players row #}
                     <div class="form-row">
                         <div class="form-group">
                             {{ form.genre|as_crispy_field }}
@@ -93,46 +125,61 @@
                             {{ form.number_of_players|as_crispy_field }}
                         </div>
                     </div>
+                    
+                    {# Description #}
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group" style="flex: 100%;">
                             {{ form.description|as_crispy_field }}
                         </div>
                     </div>
+                    
+                    {# LAN Playable #}
                     <div class="form-row">
                         <div class="form-group">
                             {{ form.lan_playable|as_crispy_field }}
                         </div>
                     </div>
+                    
+                    {# Image Upload #}
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group" style="flex: 100%;">
                             {{ form.image|as_crispy_field }}
                         </div>
                     </div>
+                    
+                    {# Notes #}
                     <div class="form-row">
-                        <div class="form-group">
+                        <div class="form-group" style="flex: 100%;">
                             {{ form.notes|as_crispy_field }}
                         </div>
                     </div>
-                    <div class="mt-3">
-                        <button type="submit" class="btn btn-primary">
-                            {% if form.instance.pk %}
-                            <i class="bi bi-check-lg"></i> {% trans "Save Changes" %}
-                            {% else %}
-                            <i class="bi bi-plus-lg"></i> {% trans "Add Game" %}
-                            {% endif %}
-                        </button>
-                        <a href="{% url 'game-list' %}" class="btn btn-outline-secondary">
-                            <i class="bi bi-x-lg"></i> {% trans "Cancel" %}
-                        </a>
+                    
+                    {# Buttons #}
+                    <div class="form-row mt-4">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">
+                                {% if form.instance.pk %}
+                                <i class="bi bi-check-lg"></i> {% trans "Save Changes" %}
+                                {% else %}
+                                <i class="bi bi-plus-lg"></i> {% trans "Add Game" %}
+                                {% endif %}
+                            </button>
+                            <a href="{% url 'game-list' %}" class="btn btn-outline-secondary ms-2">
+                                <i class="bi bi-x-lg"></i> {% trans "Cancel" %}
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+{# Keep the existing JavaScript block unchanged #}
 {% endblock %}
 
 {% block extra_js %}
+{{ block.super }}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.querySelector('input[type="file"]');

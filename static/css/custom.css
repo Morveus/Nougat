@@ -1,0 +1,96 @@
+/* Form styling */
+.form-control,
+.form-select {
+    color: #212529 !important;
+    background-color: #f8f9fa !important;
+    border: 1px solid #ced4da;
+}
+
+/* Form title styling */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    color: #ffffff !important;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Page title specific styling */
+.page-title {
+    font-size: 2rem;
+    border-bottom: 2px solid #4a4a4a;
+    padding-bottom: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .form-control,
+    .form-select {
+        color: #e9ecef !important;
+        background-color: #343a40 !important;
+        border-color: #495057;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        background-color: #495057 !important;
+        border-color: #6c757d;
+        box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+    }
+
+    /* Labels */
+    label {
+        color: #e9ecef !important;
+    }
+
+    /* Form text */
+    .form-text {
+        color: #adb5bd !important;
+    }
+}
+
+/* General form improvements */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    color: #ffffff !important;
+}
+
+.form-control::placeholder {
+    color: #6c757d;
+    opacity: 0.75;
+}
+
+/* Improve select dropdowns */
+.form-select {
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+}
+
+/* Improve number inputs */
+input[type="number"] {
+    padding-right: 0.5rem;
+}
+
+/* Help text styling */
+.form-text {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+/* Form container styling */
+.form-container {
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Required field indicator */
+.required-field::after {
+    content: "*";
+    color: #dc3545;
+    margin-left: 4px;
+} 

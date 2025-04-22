@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 import os
+from .fields import CompressedImageField
 
 def game_image_path(instance, filename):
     # Get the first character of the filename
@@ -68,11 +69,14 @@ class Game(models.Model):
         verbose_name=_("LAN Playable"),
         help_text=_("Whether the game supports LAN multiplayer")
     )
-    image = models.ImageField(
+    image = CompressedImageField(
         upload_to=game_image_path,
         verbose_name=_("Game Image"),
         null=True,
-        blank=True
+        blank=True,
+        max_width=1200,
+        max_height=1200,
+        quality=80
     )
     notes = models.TextField(blank=True, verbose_name=_("Notes"))
     created_at = models.DateTimeField(auto_now_add=True)
