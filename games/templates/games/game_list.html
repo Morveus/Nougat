@@ -8,20 +8,69 @@
         display: flex;
         height: calc(100vh - 56px); /* Subtract navbar height */
         overflow: hidden;
+        position: relative;
     }
     
     .filter-sidebar {
+        min-width: 250px;
         width: 250px;
         background-color: var(--bg-darker);
         border-right: 1px solid var(--border-dark);
         padding: 20px;
         overflow-y: auto;
+        transition: all 0.3s ease-in-out;
+        position: fixed;
+        top: 56px;
+        bottom: 0;
+        left: 0;
+        z-index: 1030;
     }
-    
+
+    .filter-sidebar.collapsed {
+        transform: translateX(-250px);
+    }
+
+    .sidebar-toggle {
+        position: fixed;
+        left: 250px;
+        top: 70px;
+        width: 24px;
+        height: 24px;
+        background-color: var(--bg-darker);
+        border: 1px solid var(--border-dark);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1031;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar-toggle.collapsed {
+        left: 0;
+    }
+
+    .sidebar-toggle i {
+        font-size: 14px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar-toggle.collapsed i {
+        transform: rotate(180deg);
+    }
+
     .game-list {
         flex: 1;
         overflow-y: auto;
         padding: 20px;
+        width: 100%;
+    }
+
+    .game-list.expanded {
+        margin-left: 0;
+        width: 100%;
     }
     
     .game-detail-panel {
@@ -89,26 +138,22 @@
     }
     
     .platform-badge {
-        margin-right: 5px;
-        margin-bottom: 5px;
         background-color: #2a2a2a;
     }
     
     .genre-badge {
-        margin-right: 5px;
-        margin-bottom: 5px;
         background-color: #1a4b8c;
     }
     
     .lan-badge {
-        margin-left: 5px;
+        /* margin-left: 5px; */
         background-color: #1a5c1a;
     }
     
-    .players-badge {
+    /* .players-badge {
         margin-right: 5px;
         margin-bottom: 5px;
-    }
+    } */
     
     .players-badge.solo {
         background-color: #dc3545;
@@ -119,7 +164,7 @@
     }
     
     .players-badge.medium {
-        background-color: #ffc107;
+        background-color: #c29100;
     }
     
     .players-badge.large {
@@ -172,125 +217,278 @@
 
     .games-table {
         width: 100%;
+        min-width: 100%;
         border-collapse: separate;
         border-spacing: 0;
         margin-top: 20px;
+        background-color: var(--bg-darker);
     }
 
     .games-table th {
-        background-color: var(--bg-darker);
+        background-color: rgba(0, 0, 0, 0.3);
         color: var(--text-light);
-        padding: 12px;
+        padding: 12px 16px;
         text-align: left;
-        border-bottom: 2px solid var(--border-dark);
-        position: sticky;
-        top: 0;
-        z-index: 10;
+        border-bottom: 1px solid var(--border-dark);
+        font-weight: normal;
     }
 
     .games-table td {
-        padding: 12px;
-        border-bottom: 1px solid var(--border-dark);
-        color: var(--text-light);
+        padding: 12px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        vertical-align: middle;
     }
 
     .games-table tr:hover {
-        background-color: var(--bg-darker);
-    }
-
-    .games-table .game-image-cell {
-        width: 100px;
+        background-color: rgba(255, 255, 255, 0.05);
     }
 
     .games-table .game-image {
-        width: 80px;
-        height: 80px;
+        width: 64px;
+        height: 64px;
         object-fit: cover;
         border-radius: 4px;
     }
 
     .games-table .game-title {
         font-weight: 500;
+        color: var(--text-light);
     }
 
     .games-table .game-badges {
         display: flex;
-        gap: 5px;
+        gap: 8px;
+        align-items: center;
         flex-wrap: wrap;
     }
 
-    .games-table .game-badges .badge {
-        margin: 2px;
+    .games-table .platform-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .games-table th:nth-child(1), /* Image column */
+    .games-table td:nth-child(1) {
+        width: 80px;
+    }
+
+    .games-table th:nth-child(2), /* Title column */
+    .games-table td:nth-child(2) {
+        width: 200px;
+    }
+
+    .games-table th:nth-child(3), /* Details column */
+    .games-table td:nth-child(3) {
+        width: 300px;
+    }
+
+    .games-table th:nth-child(4), /* LAN column */
+    .games-table td:nth-child(4) {
+        width: 80px;
+    }
+
+    .games-table th:nth-child(5), /* Year column */
+    .games-table td:nth-child(5) {
+        width: 80px;
     }
 
     .games-table .game-description {
+        font-size: 0.85rem;
+        color: var(--text-muted);
         max-width: 300px;
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .game-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+        width: 100%;
+    }
+
+    .game-list.expanded {
+        width: 100%;
+    }
+
+    #game-table {
+        overflow-x: auto;
+    }
+
+    .filter-sidebar {
+        min-width: 250px;
+        width: 250px;
+        background-color: var(--bg-darker);
+        border-right: 1px solid var(--border-dark);
+        padding: 20px;
+        overflow-y: auto;
+        transition: transform 0.3s ease-in-out;
+        position: relative;
+        z-index: 10;
+    }
+
+    .filter-sidebar.collapsed {
+        transform: translateX(-250px);
+        margin-right: -250px;
+    }
+
+    .sidebar-toggle {
+        position: fixed;
+        left: 250px;
+        top: 80px;
+        width: 24px;
+        height: 24px;
+        background-color: var(--bg-darker);
+        border: 1px solid var(--border-dark);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 20;
+        transition: left 0.3s ease-in-out;
+    }
+
+    .sidebar-toggle.collapsed {
+        left: 0;
+        transform: rotate(180deg);
+    }
+
+    .badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: normal;
+    }
+
+    .filters-bar {
+        background-color: var(--bg-darker);
+        border: 1px solid var(--border-dark);
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+
+    .filters-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .filters-header:hover .filters-title {
+        opacity: 0.8;
+    }
+
+    .filters-title {
+        font-size: 14px;
+        color: var(--text-light);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: opacity 0.2s ease;
+    }
+
+    .filters-title i.toggle-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .filters-title.collapsed i.toggle-icon {
+        transform: rotate(-90deg);
+    }
+
+    .filters-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        overflow: hidden;
+        transition: height 0.3s ease;
+        height: auto;
+    }
+
+    .filters-content.collapsed {
+        height: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .filter-group {
+        min-width: 200px;
+    }
+
+    .filter-group-title {
+        font-size: 12px;
+        color: var(--text-light);
+        opacity: 0.7;
+        margin-bottom: 8px;
+    }
+
+    .filter-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .filter-checkbox {
+        display: none;
+    }
+
+    .filter-label {
+        display: inline-flex;
+        align-items: center;
+        padding: 4px 12px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        color: var(--text-light);
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .filter-label:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .filter-checkbox:checked + .filter-label {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+
+    .filter-toggle {
+        background: none;
+        border: none;
+        color: var(--text-light);
+        cursor: pointer;
+        padding: 4px 8px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        opacity: 0.7;
+        transition: opacity 0.2s ease;
+    }
+
+    .filter-toggle:hover {
+        opacity: 1;
+    }
+
+    .filter-toggle i {
+        font-size: 16px;
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="game-list-container">
-    <!-- Filter Sidebar -->
-    <div class="filter-sidebar">
-        <div class="filter-section">
-            <h5>{% trans "Platforms" %}</h5>
-            <div class="platform-filters">
-                {% for platform in platforms %}
-                <div class="form-check">
-                    <input class="form-check-input platform-filter" type="checkbox" value="{{ platform }}" id="platform-{{ forloop.counter }}">
-                    <label class="form-check-label" for="platform-{{ forloop.counter }}">
-                        {{ platform }}
-                    </label>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <div class="filter-section">
-            <h5>{% trans "Genres" %}</h5>
-            <div class="genre-filters">
-                {% for genre in genres %}
-                <div class="form-check">
-                    <input class="form-check-input genre-filter" type="checkbox" value="{{ genre.id }}" id="genre-{{ genre.id }}">
-                    <label class="form-check-label" for="genre-{{ genre.id }}">
-                        {{ genre.name }}
-                    </label>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <div class="filter-section">
-            <h5>{% trans "LAN Playable" %}</h5>
-            <div class="form-check">
-                <input class="form-check-input lan-filter" type="checkbox" id="lan-filter">
-                <label class="form-check-label" for="lan-filter">
-                    {% trans "Show only LAN playable games" %}
-                </label>
-            </div>
-        </div>
-        
-        {% if show_image_filter %}
-        <div class="filter-section">
-            <h5>{% trans "Image Status" %}</h5>
-            <div class="form-check">
-                <input class="form-check-input image-filter" type="checkbox" id="image-filter">
-                <label class="form-check-label" for="image-filter">
-                    {% trans "Show only games without images" %}
-                </label>
-            </div>
-        </div>
-        {% endif %}
-    </div>
-    
     <!-- Game List -->
     <div class="game-list">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>{% trans "My Games" %}</h2>
+            <h2>{% trans "Available Games" %}</h2>
             <div class="d-flex align-items-center">
                 <div class="view-mode-toggle" id="gridView">
                     <i class="bi bi-grid-3x3-gap-fill"></i>
@@ -306,6 +504,65 @@
             </div>
         </div>
         
+        <!-- Filters Bar -->
+        <div class="filters-bar">
+            <div class="filters-header" id="filtersHeader">
+                <div class="filters-title">
+                    <i class="bi bi-funnel"></i>
+                    {% trans "Filters" %}
+                    <i class="bi bi-chevron-down toggle-icon"></i>
+                </div>
+                <button type="button" class="filter-toggle" id="clearFilters">
+                    <i class="bi bi-x-circle"></i>
+                    {% trans "Clear filters" %}
+                </button>
+            </div>
+            <div class="filters-content" id="filtersContent">
+                <div class="filter-group">
+                    <div class="filter-group-title">{% trans "Platform" %}</div>
+                    <div class="filter-options platform-filters">
+                        {% for platform in platforms %}
+                        <input type="checkbox" class="filter-checkbox platform-filter" id="platform-{{ forloop.counter }}" value="{{ platform }}">
+                        <label class="filter-label" for="platform-{{ forloop.counter }}">
+                            {{ platform }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">{% trans "Genre" %}</div>
+                    <div class="filter-options genre-filters">
+                        {% for genre in genres %}
+                        <input type="checkbox" class="filter-checkbox genre-filter" id="genre-{{ genre.id }}" value="{{ genre.id }}">
+                        <label class="filter-label" for="genre-{{ genre.id }}">
+                            {{ genre.name }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <div class="filter-group-title">{% trans "Options" %}</div>
+                    <div class="filter-options">
+                        <input type="checkbox" class="filter-checkbox" id="lan-filter">
+                        <label class="filter-label" for="lan-filter">
+                            <i class="bi bi-wifi me-2"></i>
+                            {% trans "LAN Games" %}
+                        </label>
+                        {% if show_image_filter %}
+                        <input type="checkbox" class="filter-checkbox" id="image-filter">
+                        <label class="filter-label" for="image-filter">
+                            <i class="bi bi-image me-2"></i>
+                            {% trans "Missing Images" %}
+                        </label>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game List -->
         <div class="row" id="game-list">
             {% for game in games %}
             <div class="col-md-6 col-lg-4 game-item" 
@@ -366,9 +623,7 @@
                     <tr>
                         <th>{% trans "Image" %}</th>
                         <th>{% trans "Title" %}</th>
-                        <th>{% trans "Platform" %}</th>
-                        <th>{% trans "Genre" %}</th>
-                        <th>{% trans "Players" %}</th>
+                        <th>{% trans "Details" %}</th>
                         <th>{% trans "LAN" %}</th>
                         <th>{% trans "Year" %}</th>
                         <th>{% trans "Description" %}</th>
@@ -393,22 +648,22 @@
                         </td>
                         <td class="game-title">{{ game.title }}</td>
                         <td>
-                            <img src="{% static 'games/icons/'|add:game.platform|lower|cut:' '|add:'.png' %}" 
-                                 alt="{{ game.get_platform_display }}" 
-                                 class="platform-icon"
-                                 title="{{ game.get_platform_display }}">
-                        </td>
-                        <td><span class="badge bg-info genre-badge">{{ game.genre }}</span></td>
-                        <td>
-                            {% if game.number_of_players == 1 %}
-                            <span class="badge players-badge solo">{% trans "Solo" %}</span>
-                            {% elif game.number_of_players <= 4 %}
-                            <span class="badge players-badge small">{{ game.number_of_players }} {% trans "players" %}</span>
-                            {% elif game.number_of_players <= 8 %}
-                            <span class="badge players-badge medium">{{ game.number_of_players }} {% trans "players" %}</span>
-                            {% else %}
-                            <span class="badge players-badge large">{{ game.number_of_players }}+ {% trans "players" %}</span>
-                            {% endif %}
+                            <div class="game-badges">
+                                <img src="{% static 'games/icons/'|add:game.platform|lower|cut:' '|add:'.png' %}" 
+                                     alt="{{ game.get_platform_display }}" 
+                                     class="platform-icon"
+                                     title="{{ game.get_platform_display }}">
+                                <span class="badge bg-info genre-badge">{{ game.genre }}</span>
+                                {% if game.number_of_players == 1 %}
+                                <span class="badge players-badge solo">{% trans "Solo" %}</span>
+                                {% elif game.number_of_players <= 4 %}
+                                <span class="badge players-badge small">{{ game.number_of_players }} {% trans "players" %}</span>
+                                {% elif game.number_of_players <= 8 %}
+                                <span class="badge players-badge medium">{{ game.number_of_players }} {% trans "players" %}</span>
+                                {% else %}
+                                <span class="badge players-badge large">{{ game.number_of_players }}+ {% trans "players" %}</span>
+                                {% endif %}
+                            </div>
                         </td>
                         <td>
                             {% if game.lan_playable %}
@@ -463,9 +718,93 @@ let activeFilters = {
     noImage: false
 };
 
-// Initialize filters from URL parameters and localStorage
+function filterGames() {
+    const gameItems = document.querySelectorAll('.game-item');
+    console.log('Filtering games with settings:', activeFilters);
+    
+    gameItems.forEach(item => {
+        const platform = item.dataset.platform;
+        const genre = item.dataset.genre;
+        const lan = item.dataset.lan;
+        const hasImage = item.dataset.hasImage === 'true';
+        
+        // Get the game title for logging
+        const title = item.querySelector('.game-title')?.textContent || 'Unknown game';
+        console.log('Game:', title, 'Has image:', hasImage);
+        
+        const platformMatch = activeFilters.platforms.length === 0 || activeFilters.platforms.includes(platform);
+        const genreMatch = activeFilters.genres.length === 0 || activeFilters.genres.includes(genre);
+        const lanMatch = !activeFilters.lan || lan === 'true';
+        const imageMatch = !activeFilters.noImage || !hasImage;
+        
+        const shouldShow = platformMatch && genreMatch && lanMatch && imageMatch;
+        console.log('Should show:', shouldShow);
+        
+        // Handle both grid and table views
+        if (item.tagName.toLowerCase() === 'div') {
+            item.style.display = shouldShow ? 'block' : 'none';
+        } else {
+            item.style.display = shouldShow ? 'table-row' : 'none';
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Try to get filters from localStorage first
+    // ... existing code ...
+
+    // Filters collapse functionality
+    const filtersHeader = document.getElementById('filtersHeader');
+    const filtersContent = document.getElementById('filtersContent');
+    const filtersTitle = filtersHeader.querySelector('.filters-title');
+    const clearFiltersBtn = document.getElementById('clearFilters');
+
+    // Load saved state
+    const isCollapsed = localStorage.getItem('filtersCollapsed') === 'true';
+    if (isCollapsed) {
+        filtersContent.classList.add('collapsed');
+        filtersTitle.classList.add('collapsed');
+        filtersContent.style.height = '0';
+    }
+
+    filtersHeader.addEventListener('click', function(e) {
+        // Don't toggle if clicking the clear filters button
+        if (e.target.closest('#clearFilters')) {
+            return;
+        }
+
+        const isCollapsed = filtersContent.classList.contains('collapsed');
+        
+        if (isCollapsed) {
+            // Expand
+            filtersContent.classList.remove('collapsed');
+            filtersTitle.classList.remove('collapsed');
+            const height = filtersContent.scrollHeight + 'px';
+            filtersContent.style.height = height;
+            setTimeout(() => {
+                if (!filtersContent.classList.contains('collapsed')) {
+                    filtersContent.style.height = 'auto';
+                }
+            }, 300);
+        } else {
+            // Collapse
+            const height = filtersContent.scrollHeight + 'px';
+            filtersContent.style.height = height;
+            requestAnimationFrame(() => {
+                filtersContent.classList.add('collapsed');
+                filtersTitle.classList.add('collapsed');
+                filtersContent.style.height = '0';
+            });
+        }
+
+        localStorage.setItem('filtersCollapsed', !isCollapsed);
+    });
+
+    // Prevent click event on clear filters from bubbling up
+    clearFiltersBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+
+    // Initialize filters from localStorage
     const savedFilters = localStorage.getItem('gameFilters');
     if (savedFilters) {
         try {
@@ -473,15 +812,19 @@ document.addEventListener('DOMContentLoaded', function() {
             activeFilters = parsedFilters;
             
             // Apply saved filters to checkboxes
-            activeFilters.platforms.forEach(platform => {
-                const checkbox = document.querySelector(`#platform-${platform}`);
-                if (checkbox) checkbox.checked = true;
-            });
+            if (activeFilters.platforms) {
+                activeFilters.platforms.forEach(platform => {
+                    const checkbox = document.querySelector(`input[value="${platform}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
             
-            activeFilters.genres.forEach(genre => {
-                const checkbox = document.querySelector(`#genre-${genre}`);
-                if (checkbox) checkbox.checked = true;
-            });
+            if (activeFilters.genres) {
+                activeFilters.genres.forEach(genre => {
+                    const checkbox = document.querySelector(`input[value="${genre}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
             
             if (activeFilters.lan) {
                 const lanCheckbox = document.querySelector('#lan-filter');
@@ -496,42 +839,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error loading saved filters:', e);
         }
     }
-    
-    // Then check URL parameters (they take precedence over localStorage)
-    const urlParams = new URLSearchParams(window.location.search);
-    const platforms = urlParams.get('platforms');
-    const genres = urlParams.get('genres');
-    const lan = urlParams.get('lan');
-    const noImage = urlParams.get('noImage');
-    
-    if (platforms) {
-        activeFilters.platforms = platforms.split(',');
-        activeFilters.platforms.forEach(platform => {
-            const checkbox = document.querySelector(`#platform-${platform}`);
-            if (checkbox) checkbox.checked = true;
-        });
-    }
-    
-    if (genres) {
-        activeFilters.genres = genres.split(',');
-        activeFilters.genres.forEach(genre => {
-            const checkbox = document.querySelector(`#genre-${genre}`);
-            if (checkbox) checkbox.checked = true;
-        });
-    }
-    
-    if (lan === 'true') {
-        activeFilters.lan = true;
-        const lanCheckbox = document.querySelector('#lan-filter');
-        if (lanCheckbox) lanCheckbox.checked = true;
-    }
-    
-    if (noImage === 'true') {
-        activeFilters.noImage = true;
-        const imageCheckbox = document.querySelector('#image-filter');
-        if (imageCheckbox) imageCheckbox.checked = true;
-    }
-    
+
+    // Apply initial filtering
     filterGames();
 });
 
@@ -575,29 +884,6 @@ document.querySelector('#image-filter')?.addEventListener('change', function() {
     saveFilters();
     filterGames();
 });
-
-function filterGames() {
-    const gameItems = document.querySelectorAll('.game-item');
-    console.log('Filtering games with settings:', activeFilters);
-    
-    gameItems.forEach(item => {
-        const platform = item.dataset.platform;
-        const genre = item.dataset.genre;
-        const lan = item.dataset.lan;
-        const hasImage = item.dataset.hasImage === 'true';
-        
-        console.log('Game:', item.querySelector('.card-title').textContent, 'Has image:', hasImage);
-        
-        const platformMatch = activeFilters.platforms.length === 0 || activeFilters.platforms.includes(platform);
-        const genreMatch = activeFilters.genres.length === 0 || activeFilters.genres.includes(genre);
-        const lanMatch = !activeFilters.lan || lan === 'true';
-        const imageMatch = !activeFilters.noImage || !hasImage;
-        
-        const shouldShow = platformMatch && genreMatch && lanMatch && imageMatch;
-        console.log('Should show:', shouldShow);
-        item.style.display = shouldShow ? 'block' : 'none';
-    });
-}
 
 function updateUrl() {
     const params = new URLSearchParams();
@@ -701,6 +987,28 @@ document.querySelectorAll('#game-table .game-item').forEach(row => {
             })
             .catch(error => console.error('Error:', error));
     });
+});
+
+// Sidebar toggle functionality
+const filterSidebar = document.getElementById('filterSidebar');
+const sidebarToggle = document.getElementById('sidebarToggle');
+const mainContent = document.querySelector('.game-list');
+
+// Load saved sidebar state from localStorage
+const savedSidebarState = localStorage.getItem('sidebarState') || 'expanded';
+if (savedSidebarState === 'collapsed') {
+    filterSidebar.classList.add('collapsed');
+    sidebarToggle.classList.add('collapsed');
+    mainContent.classList.add('expanded');
+}
+
+sidebarToggle.addEventListener('click', function() {
+    filterSidebar.classList.toggle('collapsed');
+    sidebarToggle.classList.toggle('collapsed');
+    mainContent.classList.toggle('expanded');
+    
+    const isCollapsed = filterSidebar.classList.contains('collapsed');
+    localStorage.setItem('sidebarState', isCollapsed ? 'collapsed' : 'expanded');
 });
 </script>
 {% endblock %} 

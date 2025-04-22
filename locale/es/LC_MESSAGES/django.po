@@ -1,0 +1,92 @@
+# Translation file for Spanish
+msgid ""
+msgstr ""
+"Project-Id-Version: Game Collection Manager\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-21\n"
+"PO-Revision-Date: 2024-03-21\n"
+"Last-Translator: \n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "English"
+msgstr "Inglés"
+
+msgid "Français"
+msgstr "Francés"
+
+msgid "Game Collection Manager"
+msgstr "Gestor de Colección de Juegos"
+
+msgid "Add Game"
+msgstr "Añadir Juego"
+
+msgid "Edit Game"
+msgstr "Editar Juego"
+
+msgid "Delete Game"
+msgstr "Eliminar Juego"
+
+msgid "Logout"
+msgstr "Cerrar Sesión"
+
+msgid "No games in your collection yet."
+msgstr "Aún no hay juegos en tu colección."
+
+msgid "Add your first game!"
+msgstr "¡Añade tu primer juego!"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Platform"
+msgstr "Plataforma"
+
+msgid "Release Year"
+msgstr "Año de Lanzamiento"
+
+msgid "Genre"
+msgstr "Género"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Available Games"
+msgstr "Juegos Disponibles"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Filters"
+msgstr "Filtros"
+
+msgid "Clear filters"
+msgstr "Limpiar filtros"
+
+msgid "LAN Games"
+msgstr "Juegos LAN"
+
+msgid "Missing Images"
+msgstr "Imágenes Faltantes"
+
+msgid "Solo"
+msgstr "Solo"
+
+msgid "players"
+msgstr "jugadores" 
+
+msgid "Add New Game"
+msgstr "Añadir Nuevo Juego"
+
+msgid "players"
+msgstr "jugadores"
+
+msgid "LAN Playable"
+msgstr "Juego LAN"

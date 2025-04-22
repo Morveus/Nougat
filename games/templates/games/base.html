@@ -83,20 +83,12 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'game-list' %}">{% trans "Game Collection" %}</a>
+            <a class="navbar-brand" href="{% url 'game-list' %}">Nougat: your LAN party games collection</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'game-list' %}">{% trans "Games" %}</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'game-create' %}">{% trans "Add Game" %}</a>
-                    </li>
-                    {% endif %}
                 </ul>
                 <ul class="navbar-nav mx-3">
                     <li class="nav-item dropdown">
@@ -114,7 +106,7 @@
                                     <input name="next" type="hidden" value="{{ request.get_full_path }}">
                                     <input name="language" type="hidden" value="{{ language.code }}">
                                     <button type="submit" class="dropdown-item {% if language.code == CURRENT_LANGUAGE %}active{% endif %}">
-                                        {{ language.name_local }}
+                                        {{ language.name_local|title }}
                                     </button>
                                 </form>
                             </li>

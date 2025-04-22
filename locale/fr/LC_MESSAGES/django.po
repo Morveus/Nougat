@@ -22,6 +22,12 @@ msgstr "Français"
 msgid "Game Collection Manager"
 msgstr "Gestionnaire de Collection de Jeux"
 
+msgid "Game Collection"
+msgstr "Collection de Jeux"
+
+msgid "Games"
+msgstr "Jeux"
+
 msgid "Add Game"
 msgstr "Ajouter un Jeu"
 
@@ -31,14 +37,23 @@ msgstr "Modifier le Jeu"
 msgid "Delete Game"
 msgstr "Supprimer le Jeu"
 
-msgid "Logout"
-msgstr "Déconnexion"
+msgid "Are you sure you want to delete"
+msgstr "Êtes-vous sûr de vouloir supprimer"
 
-msgid "No games in your collection yet."
-msgstr "Aucun jeu dans votre collection pour le moment."
+msgid "Delete"
+msgstr "Supprimer"
 
-msgid "Add your first game!"
-msgstr "Ajoutez votre premier jeu !"
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Save Changes"
+msgstr "Enregistrer les modifications"
+
+msgid "Add New Game"
+msgstr "Ajouter un jeu"
+
+msgid "My Games"
+msgstr "Mes Jeux"
 
 msgid "Title"
 msgstr "Titre"
@@ -46,14 +61,59 @@ msgstr "Titre"
 msgid "Platform"
 msgstr "Plateforme"
 
-msgid "Release Year"
-msgstr "Année de sortie"
-
 msgid "Genre"
 msgstr "Genre"
+
+msgid "Release Date"
+msgstr "Date de sortie"
+
+msgid "Publisher"
+msgstr "Éditeur"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Rating"
+msgstr "Note"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Completed"
+msgstr "Terminé"
+
+msgid "In Progress"
+msgstr "En cours"
+
+msgid "Edit"
+msgstr "Modifier"
+
+msgid "No games in your collection yet."
+msgstr "Aucun jeu dans votre collection pour le moment."
+
+msgid "Add your first game!"
+msgstr "Ajoutez votre premier jeu !"
+
+msgid "Language"
+msgstr "Langue"
+
+msgid "Admin"
+msgstr "Administrateur"
+
+msgid "Logout"
+msgstr "Déconnexion"
+
+msgid "Login"
+msgstr "Connexion"
 
 msgid "Save"
 msgstr "Enregistrer"
 
-msgid "Cancel"
-msgstr "Annuler"
+msgid "Available Games"
+msgstr "Jeux Disponibles"
+
+msgid "players"
+msgstr "joueurs"
+
+msgid "LAN Playable"
+msgstr "Jouable en LAN"
