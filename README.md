@@ -1,6 +1,6 @@
 ⚠️ **WARNING: This project is currently a work in progress. Features may be incomplete or subject to change.** ⚠️
 
-# ![nougat](https://github.com/user-attachments/assets/854a5638-b9b8-48bd-a88c-0e753c4dbc24) Nougat
+# ![favicon-32x32](https://github.com/user-attachments/assets/debe8331-52dd-4c74-bdff-aa69ba67db62) Nougat
 A Django-based web application for managing your LAN Party games collection.
 
 Deploy, add your games, have people filter by platform, max players...
