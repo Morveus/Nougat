@@ -50,3 +50,6 @@ uploads/
 
 # Locale
 locale/**/*.mo
+
+# Database
+database/

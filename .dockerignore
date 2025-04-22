@@ -1,3 +1,4 @@
+# Python
 __pycache__
 *.pyc
 *.pyo
@@ -6,11 +7,30 @@ __pycache__
 env/
 venv/
 .env
+
+# Database
+database/
 *.sqlite3
+
+# Version control
 .git
 .gitignore
-.idea/
-.vscode/
+
+# IDE
+.idea
+.vscode
 *.swp
 *.swo
-*~ 
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+media/
+staticfiles/
+uploads/
+
+# Documentation
+README.md
+*.md 
