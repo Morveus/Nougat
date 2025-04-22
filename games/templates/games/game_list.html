@@ -105,6 +105,27 @@
         background-color: #1a5c1a;
     }
     
+    .players-badge {
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    
+    .players-badge.solo {
+        background-color: #dc3545;
+    }
+    
+    .players-badge.small {
+        background-color: #fd7e14;
+    }
+    
+    .players-badge.medium {
+        background-color: #ffc107;
+    }
+    
+    .players-badge.large {
+        background-color: #198754;
+    }
+    
     .footer {
         position: fixed;
         bottom: 0;
@@ -137,6 +158,76 @@
             width: 100%;
             max-width: 100%;
         }
+    }
+
+    .view-mode-toggle {
+        margin-left: 10px;
+        cursor: pointer;
+        color: var(--text-light);
+    }
+
+    .view-mode-toggle.active {
+        color: #0d6efd;
+    }
+
+    .games-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 20px;
+    }
+
+    .games-table th {
+        background-color: var(--bg-darker);
+        color: var(--text-light);
+        padding: 12px;
+        text-align: left;
+        border-bottom: 2px solid var(--border-dark);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .games-table td {
+        padding: 12px;
+        border-bottom: 1px solid var(--border-dark);
+        color: var(--text-light);
+    }
+
+    .games-table tr:hover {
+        background-color: var(--bg-darker);
+    }
+
+    .games-table .game-image-cell {
+        width: 100px;
+    }
+
+    .games-table .game-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    .games-table .game-title {
+        font-weight: 500;
+    }
+
+    .games-table .game-badges {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+    }
+
+    .games-table .game-badges .badge {
+        margin: 2px;
+    }
+
+    .games-table .game-description {
+        max-width: 300px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>
 {% endblock %}
@@ -200,11 +291,19 @@
     <div class="game-list">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2>{% trans "My Games" %}</h2>
-            {% if user.is_authenticated %}
-            <a href="{% url 'game-create' %}" class="btn btn-primary">
-                <i class="bi bi-plus-lg"></i> {% trans "Add New Game" %}
-            </a>
-            {% endif %}
+            <div class="d-flex align-items-center">
+                <div class="view-mode-toggle" id="gridView">
+                    <i class="bi bi-grid-3x3-gap-fill"></i>
+                </div>
+                <div class="view-mode-toggle" id="tableView">
+                    <i class="bi bi-table"></i>
+                </div>
+                {% if user.is_authenticated %}
+                <a href="{% url 'game-create' %}" class="btn btn-primary ms-3">
+                    <i class="bi bi-plus-lg"></i> {% trans "Add New Game" %}
+                </a>
+                {% endif %}
+            </div>
         </div>
         
         <div class="row" id="game-list">
@@ -233,15 +332,19 @@
                             {% if game.lan_playable %}
                             <span class="badge bg-success lan-badge">{% trans "LAN" %}</span>
                             {% endif %}
+                            {% if game.number_of_players == 1 %}
+                            <span class="badge players-badge solo">{% trans "Solo" %}</span>
+                            {% elif game.number_of_players <= 4 %}
+                            <span class="badge players-badge small">{{ game.number_of_players }} {% trans "players" %}</span>
+                            {% elif game.number_of_players <= 8 %}
+                            <span class="badge players-badge medium">{{ game.number_of_players }} {% trans "players" %}</span>
+                            {% else %}
+                            <span class="badge players-badge large">{{ game.number_of_players }}+ {% trans "players" %}</span>
+                            {% endif %}
                         </div>
                         <p class="card-text text-muted small">
                             {% if game.release_year %}
-                            {{ game.release_year }} •
-                            {% endif %}
-                            {% if game.number_of_players > 1 %}
-                            {{ game.number_of_players }} {% trans "players" %}
-                            {% else %}
-                            {% trans "Single player" %}
+                            {{ game.release_year }}
                             {% endif %}
                         </p>
                     </div>
@@ -254,6 +357,78 @@
                 </div>
             </div>
             {% endfor %}
+        </div>
+
+        <!-- Table View -->
+        <div id="game-table" style="display: none;">
+            <table class="games-table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Image" %}</th>
+                        <th>{% trans "Title" %}</th>
+                        <th>{% trans "Platform" %}</th>
+                        <th>{% trans "Genre" %}</th>
+                        <th>{% trans "Players" %}</th>
+                        <th>{% trans "LAN" %}</th>
+                        <th>{% trans "Year" %}</th>
+                        <th>{% trans "Description" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in games %}
+                    <tr class="game-item" 
+                        data-platform="{{ game.platform }}"
+                        data-genre="{{ game.genre.id }}"
+                        data-lan="{{ game.lan_playable|lower }}"
+                        data-has-image="{% if game.image %}true{% else %}false{% endif %}"
+                        data-game-id="{{ game.id }}">
+                        <td class="game-image-cell">
+                            {% if game.image %}
+                            <img src="{{ game.image.url }}" class="game-image" alt="{{ game.title }}">
+                            {% else %}
+                            <div class="game-image bg-light d-flex align-items-center justify-content-center">
+                                <i class="bi bi-controller fs-4 text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td class="game-title">{{ game.title }}</td>
+                        <td>
+                            <img src="{% static 'games/icons/'|add:game.platform|lower|cut:' '|add:'.png' %}" 
+                                 alt="{{ game.get_platform_display }}" 
+                                 class="platform-icon"
+                                 title="{{ game.get_platform_display }}">
+                        </td>
+                        <td><span class="badge bg-info genre-badge">{{ game.genre }}</span></td>
+                        <td>
+                            {% if game.number_of_players == 1 %}
+                            <span class="badge players-badge solo">{% trans "Solo" %}</span>
+                            {% elif game.number_of_players <= 4 %}
+                            <span class="badge players-badge small">{{ game.number_of_players }} {% trans "players" %}</span>
+                            {% elif game.number_of_players <= 8 %}
+                            <span class="badge players-badge medium">{{ game.number_of_players }} {% trans "players" %}</span>
+                            {% else %}
+                            <span class="badge players-badge large">{{ game.number_of_players }}+ {% trans "players" %}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if game.lan_playable %}
+                            <span class="badge bg-success lan-badge">{% trans "LAN" %}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ game.release_year|default:"" }}</td>
+                        <td class="game-description">{{ game.description|default:"" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            <div class="alert alert-info">
+                                {% trans "No games found. Add your first game!" %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -479,6 +654,53 @@ document.addEventListener('click', function(event) {
 document.addEventListener('DOMContentLoaded', function() {
     const currentYear = new Date().getFullYear();
     document.querySelector('.footer p').innerHTML = document.querySelector('.footer p').innerHTML.replace('{{ current_year }}', currentYear);
+});
+
+// View mode toggle functionality
+const gridView = document.getElementById('gridView');
+const tableView = document.getElementById('tableView');
+const gameList = document.getElementById('game-list');
+const gameTable = document.getElementById('game-table');
+
+// Load saved view mode from localStorage
+const savedViewMode = localStorage.getItem('gameViewMode') || 'grid';
+if (savedViewMode === 'table') {
+    switchToTableView();
+} else {
+    switchToGridView();
+}
+
+gridView.addEventListener('click', switchToGridView);
+tableView.addEventListener('click', switchToTableView);
+
+function switchToGridView() {
+    gameList.style.display = 'flex';
+    gameTable.style.display = 'none';
+    gridView.classList.add('active');
+    tableView.classList.remove('active');
+    localStorage.setItem('gameViewMode', 'grid');
+}
+
+function switchToTableView() {
+    gameList.style.display = 'none';
+    gameTable.style.display = 'block';
+    gridView.classList.remove('active');
+    tableView.classList.add('active');
+    localStorage.setItem('gameViewMode', 'table');
+}
+
+// Add click handler for table rows
+document.querySelectorAll('#game-table .game-item').forEach(row => {
+    row.addEventListener('click', function() {
+        const gameId = this.dataset.gameId;
+        fetch(`/games/${gameId}/detail/`)
+            .then(response => response.text())
+            .then(html => {
+                detailContent.innerHTML = html;
+                detailPanel.classList.add('active');
+            })
+            .catch(error => console.error('Error:', error));
+    });
 });
 </script>
 {% endblock %} 

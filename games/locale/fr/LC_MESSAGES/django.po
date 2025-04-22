@@ -83,7 +83,7 @@ msgstr ""
 
 #: .\games\templates\games\game_list.html:6
 msgid "My Games"
-msgstr ""
+msgstr "Jeux"
 
 #: .\games\templates\games\game_list.html:19
 msgid "Title"
