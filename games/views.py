@@ -9,8 +9,8 @@ from django.views import View
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
-from .models import Game, Genre, UserAPIKey
-from .forms import GameForm, APIKeyForm
+from .models import Game, Genre
+from .forms import GameForm
 
 # Create your views here.
 
@@ -78,26 +78,3 @@ class GameDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'games/game_confirm_delete.html'
     success_url = reverse_lazy('game-list')
     login_url = '/admin/login/'
-
-class APIKeyView(LoginRequiredMixin, FormView):
-    template_name = 'games/api_key_form.html'
-    form_class = APIKeyForm
-    success_url = reverse_lazy('game-list')
-
-    def get_object(self):
-        try:
-            return UserAPIKey.objects.get(user=self.request.user)
-        except UserAPIKey.DoesNotExist:
-            return None
-
-    def get_form(self, form_class=None):
-        if form_class is None:
-            form_class = self.get_form_class()
-        return form_class(instance=self.get_object(), **self.get_form_kwargs())
-
-    def form_valid(self, form):
-        api_key = form.save(commit=False)
-        api_key.user = self.request.user
-        api_key.save()
-        messages.success(self.request, _('Your API key has been saved successfully.'))
-        return super().form_valid(form)

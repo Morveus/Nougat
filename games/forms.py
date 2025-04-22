@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
-from .models import Game, Genre, UserAPIKey
+from .models import Game, Genre
 
 class GameForm(forms.ModelForm):
     class Meta:
