@@ -80,16 +80,10 @@ msgid "Solo"
 msgstr "Solo"
 
 msgid "players"
-msgstr "jugadores" 
+msgstr "jugadores"
 
 msgid "Add New Game"
 msgstr "Añadir Nuevo Juego"
 
-msgid "players"
-msgstr "jugadores"
-
 msgid "LAN Playable"
 msgstr "Juego LAN"
-
-msgid "Missing Images"
-msgstr "Imágenes Faltantes"
