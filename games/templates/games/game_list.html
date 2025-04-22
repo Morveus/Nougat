@@ -872,7 +872,8 @@
                  data-platform="{{ game.platform }}"
                  data-genre="{{ game.genre.id }}"
                  data-lan="{{ game.lan_playable|lower }}"
-                 data-has-image="{% if game.image %}true{% else %}false{% endif %}">
+                 data-has-image="{% if game.image %}true{% else %}false{% endif %}"
+                 data-players="{{ game.number_of_players }}">
                 <div class="card game-card" data-game-id="{{ game.id }}">
                     {% if game.image %}
                     <img src="{{ game.image.url }}" class="card-img-top game-image" alt="{{ game.title }}">
@@ -942,6 +943,7 @@
                         data-genre="{{ game.genre.id }}"
                         data-lan="{{ game.lan_playable|lower }}"
                         data-has-image="{% if game.image %}true{% else %}false{% endif %}"
+                        data-players="{{ game.number_of_players }}"
                         data-game-id="{{ game.id }}">
                         <td class="game-image-cell">
                             {% if game.image %}
@@ -1140,18 +1142,24 @@ function filterGames() {
     const minPlayers = parseInt(document.getElementById('min-players').value) || 1;
     activeFilters.minPlayers = minPlayers;
     
+    console.log('Filtering with minPlayers:', minPlayers); // Debug log
+    
     gameItems.forEach(item => {
         const platform = item.dataset.platform;
         const genre = item.dataset.genre;
-        const lan = item.dataset.lan;
+        const lan = item.dataset.lan === 'true';
         const hasImage = item.dataset.hasImage === 'true';
-        const players = parseInt(item.querySelector('.players-badge')?.textContent?.match(/\d+/)?.[0] || '0');
+        const players = parseInt(item.dataset.players) || 0;
+        
+        console.log('Game players:', players); // Debug log
         
         const platformMatch = activeFilters.platforms.length === 0 || activeFilters.platforms.includes(platform);
         const genreMatch = activeFilters.genres.length === 0 || activeFilters.genres.includes(genre);
-        const lanMatch = !activeFilters.lan || lan === 'true';
+        const lanMatch = activeFilters.lan ? lan : true;
         const imageMatch = !activeFilters.noImage || !hasImage;
         const playersMatch = players >= minPlayers;
+        
+        console.log('Players match:', playersMatch, 'for game with', players, 'players'); // Debug log
         
         const shouldShow = platformMatch && genreMatch && lanMatch && imageMatch && playersMatch;
         
