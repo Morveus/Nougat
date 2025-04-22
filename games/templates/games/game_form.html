@@ -226,57 +226,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const aiFillButton = document.getElementById('ai-fill-button');
     const loadingSpinner = document.querySelector('.loading-spinner');
     const titleInput = document.querySelector('#id_title');
-
-    aiFillButton.addEventListener('click', async function() {
-        const title = titleInput.value.trim();
-        if (!title) {
-            alert('{% trans "Please enter a game title first" %}');
-            return;
-        }
-
-        try {
-            // Show loading spinner
-            aiFillButton.disabled = true;
-            loadingSpinner.style.display = 'inline-block';
-
-            // Make API request
-            const response = await fetch('{% url "ai-game-info" %}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                },
-                body: `title=${encodeURIComponent(title)}`
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                if (errorData.redirect) {
-                    window.location.href = errorData.redirect;
-                    return;
-                }
-                throw new Error(errorData.error || '{% trans "Failed to get AI response" %}');
-            }
-
-            const data = await response.json();
-
-            // Fill form fields
-            document.querySelector('#id_platform').value = data.platform;
-            document.querySelector('#id_genre').value = data.genre;
-            document.querySelector('#id_release_year').value = data.release_year;
-            document.querySelector('#id_number_of_players').value = data.number_of_players;
-            document.querySelector('#id_description').value = data.description;
-            document.querySelector('#id_lan_playable').checked = data.lan_playable;
-            document.querySelector('#id_notes').value = data.notes;
-
-        } catch (error) {
-            alert(`{% trans "Error" %}: ${error.message}`);
-        } finally {
-            // Hide loading spinner
-            aiFillButton.disabled = false;
-            loadingSpinner.style.display = 'none';
-        }
-    });
 });
 </script>
 {% endblock %} 
