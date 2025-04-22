@@ -46,4 +46,18 @@ python manage.py makemessages -l fr  # For French
 python manage.py makemessages -l en  # For English
 ```
 
+## Docker
+
+1. Build the Docker image:
+```bash
+docker build -t gamecollection .
+```
+
+2. Run the Docker container:
+```bash
+docker run -d -p 8000:8000 gamecollection -v $(pwd)/database:/app/database -v $(pwd)/media:/app/media -e CSRF_TRUSTED_ORIGINS=https://your.domain.com
+```
+
+3. Access the application at http://localhost:8000/
+
 
