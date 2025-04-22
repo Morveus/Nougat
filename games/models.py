@@ -26,6 +26,8 @@ class Genre(models.Model):
 class Game(models.Model):
     PLATFORM_CHOICES = [
         ('Microsoft Windows', 'Microsoft Windows'),
+        ('Linux', 'Linux'),
+        ('Mac', 'Mac'),
         ('Sony PlayStation 5', 'Sony PlayStation 5'),
         ('Sony PlayStation 4', 'Sony PlayStation 4'),
         ('Sony PlayStation 3', 'Sony PlayStation 3'),
