@@ -7,7 +7,7 @@ Deploy, add your games, have people filter by platform, max players...
 
 ![image](https://github.com/user-attachments/assets/7e05e1b6-f880-4dd0-862d-420d9fe63897)
 
-I've intentionally added support for non-LAN games to for sharing titles that may be solo or retrogaming. You can filter by LAN/non-LAN :)
+I've intentionally added support for non-LAN games to allow for sharing titles that may be solo or retrogaming. You can filter by LAN/non-LAN :)
 
 ![image](https://github.com/user-attachments/assets/ff8a7b57-df05-4988-8d2a-67300589185b)
 
