@@ -1,8 +1,11 @@
 ⚠️ **WARNING: This project is currently a work in progress. Features may be incomplete or subject to change.** ⚠️
 
 # Nougat
+A Django-based web application for managing your LAN Party games collection.
+Deploy, add your games, have people filter by platform, max players...
+![image](https://github.com/user-attachments/assets/7e05e1b6-f880-4dd0-862d-420d9fe63897)
 
-A Django-based web application for managing your game collection.
+I've intentionally added support for non-LAN games to for sharing titles that may be solo or retrogaming. You can filter by LAN/non-LAN :)
 
 ## Setup
 
