@@ -90,3 +90,6 @@ msgstr "jugadores"
 
 msgid "LAN Playable"
 msgstr "Juego LAN"
+
+msgid "Missing Images"
+msgstr "Imágenes Faltantes"
