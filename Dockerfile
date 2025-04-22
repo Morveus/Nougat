@@ -21,7 +21,7 @@ COPY requirements.txt /app/
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy entrypoint script
+# Copy entrypoint script and set permissions
 COPY docker-entrypoint.sh /app/
 RUN chmod +x /app/docker-entrypoint.sh
 
@@ -30,7 +30,13 @@ COPY . /app/
 
 # Create necessary directories and set permissions
 RUN mkdir -p /app/database /app/media /app/staticfiles \
-    && chmod -R 755 /app/database /app/media /app/staticfiles
+    && chmod -R 777 /app/database /app/media /app/staticfiles \
+    && chmod -R 755 /app/docker-entrypoint.sh
+
+# Create a non-root user and switch to it
+RUN useradd -m -u 1000 appuser \
+    && chown -R appuser:appuser /app
+USER appuser
 
 # Expose port
 EXPOSE 8000
