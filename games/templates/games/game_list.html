@@ -78,8 +78,10 @@
     }
     
     .game-detail-content {
-        padding: 2rem;
         position: relative;
+        padding: 0 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
     }
     
     .game-card {
@@ -349,7 +351,7 @@
 
     .games-table th:nth-child(5), /* Year column */
     .games-table td:nth-child(5) {
-        width: 80px;
+        width: 100px;
     }
 
     .games-table .game-description {
@@ -541,6 +543,200 @@
     .filter-toggle i {
         font-size: 16px;
     }
+
+    /* New styles for the detail sections */
+    .game-detail-content h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin: 2rem;
+        padding-bottom: 1.5rem;
+        color: var(--text-light);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .game-detail-content section {
+        margin: 0 0 1.5rem;
+        background: linear-gradient(180deg, rgba(45, 45, 45, 0.3) 0%, rgba(35, 35, 35, 0.3) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .game-detail-content section h3 {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: var(--text-light);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Icons for each section */
+    .game-detail-content section h3::before {
+        font-family: "bootstrap-icons";
+        font-size: 1.2em;
+        opacity: 0.8;
+    }
+
+    .game-detail-content section.details h3::before {
+        content: "\F46C";  /* Info circle icon */
+    }
+
+    .game-detail-content section.description h3::before {
+        content: "\F3E2";  /* Text paragraph icon */
+    }
+
+    .game-detail-content section.notes h3::before {
+        content: "\F3E8";  /* Sticky note icon */
+    }
+
+    /* Content styling within sections */
+    .game-detail-content section p {
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 0.75rem;
+    }
+
+    .game-detail-content .details-grid {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.75rem 1.5rem;
+        align-items: center;
+    }
+
+    .game-detail-content .details-grid dt {
+        color: var(--text-light);
+        font-weight: 500;
+        opacity: 0.7;
+    }
+
+    .game-detail-content .details-grid dd {
+        color: var(--text-light);
+        margin: 0;
+    }
+
+    /* Button styling */
+    .game-detail-content .action-buttons {
+        margin: 0 0 2rem;
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .game-detail-content .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.875rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 120px;
+    }
+
+    .game-detail-content .btn i {
+        margin-right: 0.5rem;
+        font-size: 1.1em;
+    }
+
+    .game-detail-content .btn-primary {
+        background: linear-gradient(135deg, #0d6efd 0%, #0099ff 100%);
+        border: none;
+        box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+    }
+
+    .game-detail-content .btn-danger {
+        background: linear-gradient(135deg, #dc3545 0%, #ff4d5e 100%);
+        border: none;
+        box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2);
+    }
+
+    .game-detail-content .btn-secondary {
+        background: linear-gradient(135deg, #6c757d 0%, #868e96 100%);
+        border: none;
+        box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+        color: var(--text-light);
+    }
+
+    .game-detail-content .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Game detail image styling */
+    .game-detail-image-container {
+        position: relative;
+        width: calc(100% + 3rem); /* Compensate for parent padding */
+        margin-left: -1.5rem; /* Pull image to full width */
+        height: 300px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    .game-detail-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .image-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(to top, var(--bg-darker) 0%, transparent 100%);
+        pointer-events: none;
+    }
+
+    .game-detail-panel h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        margin: 2rem 0;
+        padding-bottom: 1.5rem;
+        color: var(--text-light);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .game-detail-content section {
+        margin: 0 0 1.5rem;
+        background: linear-gradient(180deg, rgba(45, 45, 45, 0.3) 0%, rgba(35, 35, 35, 0.3) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+        background-color: var(--bg-darker);
+        border: 1px solid var(--border-dark);
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--border-dark);
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        border-top: 1px solid var(--border-dark);
+        padding: 1.5rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+        color: var(--text-light);
+    }
+
+    .modal-title {
+        color: var(--text-light);
+    }
 </style>
 {% endblock %}
 
@@ -573,10 +769,6 @@
                     {% trans "Filters" %}
                     <i class="bi bi-chevron-down toggle-icon"></i>
                 </div>
-                <button type="button" class="filter-toggle" id="clearFilters">
-                    <i class="bi bi-x-circle"></i>
-                    {% trans "Clear filters" %}
-                </button>
             </div>
             <div class="filters-content" id="filtersContent">
                 <div class="filter-group">
@@ -618,6 +810,11 @@
                             {% trans "Missing Images" %}
                         </label>
                         {% endif %}
+                        <div class="filter-label" style="display: flex; align-items: center; gap: 8px;">
+                            <i class="bi bi-people me-2"></i>
+                            <span>{% trans "Min Players" %}</span>
+                            <input type="number" id="min-players" class="form-control form-control-sm" style="width: 60px;" min="1" value="1">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -686,10 +883,10 @@
                 <thead>
                     <tr>
                         <th>{% trans "Image" %}</th>
-                        <th>{% trans "Title" %}</th>
+                        <th class="sortable" data-sort="title">{% trans "Title" %} <i class="bi bi-arrow-down-up"></i></th>
                         <th>{% trans "Details" %}</th>
                         <th>{% trans "LAN" %}</th>
-                        <th>{% trans "Year" %}</th>
+                        <th class="sortable" data-sort="year">{% trans "Year" %} <i class="bi bi-arrow-down-up"></i></th>
                         <th>{% trans "Description" %}</th>
                     </tr>
                 </thead>
@@ -725,7 +922,7 @@
                                 {% elif game.number_of_players <= 8 %}
                                 <span class="badge players-badge medium">{{ game.number_of_players }} {% trans "players" %}</span>
                                 {% else %}
-                                <span class="badge players-badge large">{{ game.number_of_players }}+ {% trans "players" %}</span>
+                                <span class="badge players-badge large">{{ game.number_of_players }} {% trans "players" %}</span>
                                 {% endif %}
                             </div>
                         </td>
@@ -779,32 +976,83 @@ let activeFilters = {
     platforms: [],
     genres: [],
     lan: false,
-    noImage: false
+    noImage: false,
+    minPlayers: 1
 };
+
+// Add sorting functionality
+let currentSort = {
+    column: null,
+    direction: 'asc'
+};
+
+function sortTable(column, direction) {
+    const tbody = document.querySelector('#game-table tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    
+    rows.sort((a, b) => {
+        let aValue = a.querySelector(`td:nth-child(${column === 'title' ? 2 : 5})`).textContent.trim();
+        let bValue = b.querySelector(`td:nth-child(${column === 'title' ? 2 : 5})`).textContent.trim();
+        
+        if (column === 'year') {
+            aValue = parseInt(aValue) || 0;
+            bValue = parseInt(bValue) || 0;
+        }
+        
+        if (direction === 'asc') {
+            return aValue > bValue ? 1 : -1;
+        } else {
+            return aValue < bValue ? 1 : -1;
+        }
+    });
+    
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+document.querySelectorAll('.sortable').forEach(header => {
+    header.addEventListener('click', function() {
+        const column = this.dataset.sort;
+        const icon = this.querySelector('i');
+        
+        // Reset all sort icons
+        document.querySelectorAll('.sortable i').forEach(i => {
+            i.className = 'bi bi-arrow-down-up';
+        });
+        
+        if (currentSort.column === column) {
+            currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+        } else {
+            currentSort.column = column;
+            currentSort.direction = 'asc';
+        }
+        
+        // Update sort icon
+        icon.className = `bi bi-arrow-${currentSort.direction === 'asc' ? 'up' : 'down'}`;
+        
+        sortTable(column, currentSort.direction);
+    });
+});
 
 function filterGames() {
     const gameItems = document.querySelectorAll('.game-item');
-    console.log('Filtering games with settings:', activeFilters);
+    const minPlayers = parseInt(document.getElementById('min-players').value) || 1;
+    activeFilters.minPlayers = minPlayers;
     
     gameItems.forEach(item => {
         const platform = item.dataset.platform;
         const genre = item.dataset.genre;
         const lan = item.dataset.lan;
         const hasImage = item.dataset.hasImage === 'true';
-        
-        // Get the game title for logging
-        const title = item.querySelector('.game-title')?.textContent || 'Unknown game';
-        console.log('Game:', title, 'Has image:', hasImage);
+        const players = parseInt(item.querySelector('.players-badge')?.textContent?.match(/\d+/)?.[0] || '0');
         
         const platformMatch = activeFilters.platforms.length === 0 || activeFilters.platforms.includes(platform);
         const genreMatch = activeFilters.genres.length === 0 || activeFilters.genres.includes(genre);
         const lanMatch = !activeFilters.lan || lan === 'true';
         const imageMatch = !activeFilters.noImage || !hasImage;
+        const playersMatch = players >= minPlayers;
         
-        const shouldShow = platformMatch && genreMatch && lanMatch && imageMatch;
-        console.log('Should show:', shouldShow);
+        const shouldShow = platformMatch && genreMatch && lanMatch && imageMatch && playersMatch;
         
-        // Handle both grid and table views
         if (item.tagName.toLowerCase() === 'div') {
             item.style.display = shouldShow ? 'block' : 'none';
         } else {
@@ -820,7 +1068,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const filtersHeader = document.getElementById('filtersHeader');
     const filtersContent = document.getElementById('filtersContent');
     const filtersTitle = filtersHeader.querySelector('.filters-title');
-    const clearFiltersBtn = document.getElementById('clearFilters');
 
     // Load saved state
     const isCollapsed = localStorage.getItem('filtersCollapsed') === 'true';
@@ -831,11 +1078,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     filtersHeader.addEventListener('click', function(e) {
-        // Don't toggle if clicking the clear filters button
-        if (e.target.closest('#clearFilters')) {
-            return;
-        }
-
         const isCollapsed = filtersContent.classList.contains('collapsed');
         
         if (isCollapsed) {
@@ -861,11 +1103,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         localStorage.setItem('filtersCollapsed', !isCollapsed);
-    });
-
-    // Prevent click event on clear filters from bubbling up
-    clearFiltersBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
     });
 
     // Initialize filters from localStorage
@@ -949,6 +1186,12 @@ document.querySelector('#image-filter')?.addEventListener('change', function() {
     filterGames();
 });
 
+document.getElementById('min-players').addEventListener('change', function() {
+    updateUrl();
+    saveFilters();
+    filterGames();
+});
+
 function updateUrl() {
     const params = new URLSearchParams();
     if (activeFilters.platforms.length > 0) {
@@ -962,6 +1205,9 @@ function updateUrl() {
     }
     if (activeFilters.noImage) {
         params.set('noImage', 'true');
+    }
+    if (activeFilters.minPlayers > 1) {
+        params.set('minPlayers', activeFilters.minPlayers);
     }
     window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
 }
@@ -1054,25 +1300,12 @@ document.querySelectorAll('#game-table .game-item').forEach(row => {
 });
 
 // Sidebar toggle functionality
-const filterSidebar = document.getElementById('filterSidebar');
-const sidebarToggle = document.getElementById('sidebarToggle');
 const mainContent = document.querySelector('.game-list');
 
 // Load saved sidebar state from localStorage
 const savedSidebarState = localStorage.getItem('sidebarState') || 'expanded';
 if (savedSidebarState === 'collapsed') {
-    filterSidebar.classList.add('collapsed');
-    sidebarToggle.classList.add('collapsed');
     mainContent.classList.add('expanded');
 }
-
-sidebarToggle.addEventListener('click', function() {
-    filterSidebar.classList.toggle('collapsed');
-    sidebarToggle.classList.toggle('collapsed');
-    mainContent.classList.toggle('expanded');
-    
-    const isCollapsed = filterSidebar.classList.contains('collapsed');
-    localStorage.setItem('sidebarState', isCollapsed ? 'collapsed' : 'expanded');
-});
 </script>
 {% endblock %} 

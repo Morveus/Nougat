@@ -1,59 +1,81 @@
 {% load i18n %}
 
-<div class="p-4">
-    {% if game.image %}
-    <img src="{{ game.image.url }}" class="img-fluid rounded mb-3" alt="{{ game.title }}">
-    {% endif %}
-    
-    <h3>{{ game.title }}</h3>
-    
-    <div class="mb-3">
-        <span class="badge bg-secondary">{{ game.get_platform_display }}</span>
-        <span class="badge bg-info">{{ game.genre }}</span>
-        {% if game.lan_playable %}
-        <span class="badge bg-success">{% trans "LAN Playable" %}</span>
-        {% endif %}
+{% if game.image %}
+<div class="game-detail-image-container">
+    <img src="{{ game.image.url }}" class="game-detail-image" alt="{{ game.title }}">
+    <div class="image-overlay"></div>
+</div>
+{% endif %}
+
+<h2>{{ game.title }}</h2>
+
+<section class="details">
+    <h3>{% trans "Details" %}</h3>
+    <dl class="details-grid">
+        <dt>{% trans "Platform" %}</dt>
+        <dd>{{ game.get_platform_display }}</dd>
+        
+        <dt>{% trans "Release Year" %}</dt>
+        <dd>{{ game.release_year|default:"-" }}</dd>
+        
+        <dt>{% trans "Players" %}</dt>
+        <dd>{{ game.number_of_players }}</dd>
+        
+        <dt>{% trans "Genre" %}</dt>
+        <dd>{{ game.genre }}</dd>
+        
+        <dt>{% trans "LAN Support" %}</dt>
+        <dd>{% if game.lan_playable %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</dd>
+    </dl>
+</section>
+
+{% if game.description %}
+<section class="description">
+    <h3>{% trans "Description" %}</h3>
+    <p>{{ game.description }}</p>
+</section>
+{% endif %}
+
+{% if game.notes %}
+<section class="notes">
+    <h3>{% trans "Notes" %}</h3>
+    <p>{{ game.notes }}</p>
+</section>
+{% endif %}
+
+{% if user.is_authenticated %}
+<div class="action-buttons">
+    <a href="{% url 'game-update' game.id %}" class="btn btn-primary">
+        <i class="bi bi-pencil-square"></i>
+        {% trans "Edit" %}
+    </a>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+        <i class="bi bi-trash"></i>
+        {% trans "Delete" %}
+    </button>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans "Confirm Deletion" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                {% blocktrans with game_title=game.title %}
+                Are you sure you want to delete "{{ game_title }}"?
+                {% endblocktrans %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% trans "Cancel" %}</button>
+                <form action="{% url 'game-delete' game.id %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">{% trans "Delete" %}</button>
+                </form>
+            </div>
+        </div>
     </div>
-    
-    <div class="mb-3">
-        <h5>{% trans "Details" %}</h5>
-        <ul class="list-unstyled">
-            {% if game.release_year %}
-            <li><strong>{% trans "Release Year" %}:</strong> {{ game.release_year }}</li>
-            {% endif %}
-            <li>
-                <strong>{% trans "Players" %}:</strong>
-                {% if game.number_of_players > 1 %}
-                {{ game.number_of_players }} {% trans "players" %}
-                {% else %}
-                {% trans "Single player" %}
-                {% endif %}
-            </li>
-        </ul>
-    </div>
-    
-    {% if game.description %}
-    <div class="mb-3">
-        <h5>{% trans "Description" %}</h5>
-        <p>{{ game.description }}</p>
-    </div>
-    {% endif %}
-    
-    {% if game.notes %}
-    <div class="mb-3">
-        <h5>{% trans "Notes" %}</h5>
-        <p>{{ game.notes }}</p>
-    </div>
-    {% endif %}
-    
-    {% if user.is_authenticated %}
-    <div class="mt-4">
-        <a href="{% url 'game-update' game.pk %}" class="btn btn-primary">
-            <i class="bi bi-pencil"></i> {% trans "Edit" %}
-        </a>
-        <a href="{% url 'game-delete' game.pk %}" class="btn btn-outline-danger">
-            <i class="bi bi-trash"></i> {% trans "Delete" %}
-        </a>
-    </div>
-    {% endif %}
-</div> 
+</div>
+{% endif %} 

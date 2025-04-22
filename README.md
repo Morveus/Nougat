@@ -1,8 +1,6 @@
 ⚠️ **WARNING: This project is currently a work in progress. Features may be incomplete or subject to change.** ⚠️
-⚠️ I'm working in English but have some shitty habits of mixing fr/en ; i18n is not up to date at all ⚠️
 
-
-# Game Collection Manager
+# Nougat
 
 A Django-based web application for managing your game collection.
 

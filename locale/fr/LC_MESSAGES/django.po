@@ -123,3 +123,15 @@ msgstr "Images Manquantes"
 
 msgid "LAN Games"
 msgstr "Jeux LAN"
+
+msgid "Min Players"
+msgstr "Joueurs minimum"
+
+msgid "Year"
+msgstr "Année"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Filters"
+msgstr "Filtres"
