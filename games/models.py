@@ -9,21 +9,8 @@ def game_image_path(instance, filename):
     # Create the path: uploads/first_char/filename
     return os.path.join('uploads', first_char, filename)
 
-class UserAPIKey(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=_("User"))
-    openai_api_key = models.CharField(max_length=100, verbose_name=_("OpenAI API Key"))
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        verbose_name = _("User API Key")
-        verbose_name_plural = _("User API Keys")
-
-    def __str__(self):
-        return f"{self.user.username}'s API Key"
 
 # Create your models here.
-
 class Genre(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
     

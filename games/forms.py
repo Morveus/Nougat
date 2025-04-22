@@ -44,20 +44,3 @@ class GameForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Set the queryset for genre to ensure it's ordered
         self.fields['genre'].queryset = Genre.objects.all().order_by('name')
-
-class APIKeyForm(forms.ModelForm):
-    class Meta:
-        model = UserAPIKey
-        fields = ['openai_api_key']
-        widgets = {
-            'openai_api_key': forms.PasswordInput(attrs={
-                'class': 'form-control',
-                'placeholder': _('Enter your OpenAI API key')
-            })
-        }
-        labels = {
-            'openai_api_key': _('OpenAI API Key')
-        }
-        help_texts = {
-            'openai_api_key': _('Your personal OpenAI API key for AI features')
-        } 
