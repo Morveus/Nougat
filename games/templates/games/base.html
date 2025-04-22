@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     <style>
         :root {
             --bg-dark: #1a1a1a;
@@ -131,7 +133,10 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'game-list' %}">Nougat: your LAN party games collection</a>
+            <a class="navbar-brand" href="{% url 'game-list' %}">
+                <img src="{% static 'logo/favicon-32x32.png' %}" alt="Nougat" class="navbar-brand-icon">
+                Nougat: your LAN party games collection
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>

@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load static %}
 
 {% if game.image %}
 <div class="game-detail-image-container">
@@ -13,19 +14,41 @@
     <h3>{% trans "Details" %}</h3>
     <dl class="details-grid">
         <dt>{% trans "Platform" %}</dt>
-        <dd>{{ game.get_platform_display }}</dd>
+        <dd>
+            <img src="{% static 'games/icons/'|add:game.platform|lower|cut:' '|add:'.png' %}" 
+                 alt="{{ game.get_platform_display }}" 
+                 class="platform-icon"
+                 title="{{ game.get_platform_display }}">
+            {{ game.get_platform_display }}
+        </dd>
         
         <dt>{% trans "Release Year" %}</dt>
         <dd>{{ game.release_year|default:"-" }}</dd>
         
         <dt>{% trans "Players" %}</dt>
-        <dd>{{ game.number_of_players }}</dd>
+        <dd>
+            {% if game.number_of_players == 1 %}
+            <span class="badge players-badge solo">{% trans "Solo" %}</span>
+            {% elif game.number_of_players <= 4 %}
+            <span class="badge players-badge small">{{ game.number_of_players }} {% trans "players" %}</span>
+            {% elif game.number_of_players <= 8 %}
+            <span class="badge players-badge medium">{{ game.number_of_players }} {% trans "players" %}</span>
+            {% else %}
+            <span class="badge players-badge large">{{ game.number_of_players }} {% trans "players" %}</span>
+            {% endif %}
+        </dd>
         
         <dt>{% trans "Genre" %}</dt>
-        <dd>{{ game.genre }}</dd>
+        <dd><span class="badge bg-info genre-badge">{{ game.genre }}</span></dd>
         
         <dt>{% trans "LAN Support" %}</dt>
-        <dd>{% if game.lan_playable %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}</dd>
+        <dd>
+            {% if game.lan_playable %}
+            <span class="badge lan-badge">{% trans "Yes" %}</span>
+            {% else %}
+            <span class="badge lan-badge negative">{% trans "No" %}</span>
+            {% endif %}
+        </dd>
     </dl>
 </section>
 

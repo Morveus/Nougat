@@ -135,3 +135,12 @@ msgstr "Détails"
 
 msgid "Filters"
 msgstr "Filtres"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "LAN Support"
+msgstr "Support LAN"

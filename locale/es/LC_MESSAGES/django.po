@@ -64,12 +64,6 @@ msgstr "Juegos Disponibles"
 msgid "Language"
 msgstr "Idioma"
 
-msgid "Filters"
-msgstr "Filtros"
-
-msgid "Clear filters"
-msgstr "Limpiar filtros"
-
 msgid "LAN Games"
 msgstr "Juegos LAN"
 
@@ -87,3 +81,24 @@ msgstr "Añadir Nuevo Juego"
 
 msgid "LAN Playable"
 msgstr "Juego LAN"
+
+msgid "Min Players"
+msgstr "Jugadores mínimos"
+
+msgid "Year"
+msgstr "Año"
+
+msgid "Details"
+msgstr "Detalles"
+
+msgid "Filters"
+msgstr "Filtros"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Notes"
+msgstr "Notas"
+
+msgid "LAN Support"
+msgstr "Soporte LAN"
