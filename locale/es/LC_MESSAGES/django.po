@@ -102,3 +102,9 @@ msgstr "Notas"
 
 msgid "LAN Support"
 msgstr "Soporte LAN"
+
+msgid "games matching the current filter(s)"
+msgstr "juegos que coinciden con los filtros actuales"
+
+
+

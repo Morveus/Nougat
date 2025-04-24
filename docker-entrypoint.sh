@@ -14,6 +14,10 @@ else
     python manage.py migrate
 fi
 
+# Compile languages
+echo "Compiling languages..."
+python manage.py compilemessages
+
 python manage.py collectstatic --noinput 
 
 # Start server

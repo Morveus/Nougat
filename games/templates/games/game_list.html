@@ -782,6 +782,21 @@
     .modal-title {
         color: var(--text-light);
     }
+
+    /* Games counter styling */
+    .games-counter {
+        color: var(--text-light);
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 6px;
+        display: inline-block;
+    }
+
+    .games-counter #gamesCount {
+        font-weight: 600;
+        color: #0d6efd;
+    }
 </style>
 {% endblock %}
 
@@ -804,6 +819,11 @@
                 </a>
                 {% endif %}
             </div>
+        </div>
+        
+        <!-- Add games counter -->
+        <div class="games-counter mb-3">
+            <span id="gamesCount">0</span> {% trans "games matching the current filter(s)" %}
         </div>
         
         <!-- Filters Bar -->
@@ -1111,6 +1131,10 @@ function sortTable(column, direction) {
     });
     
     rows.forEach(row => tbody.appendChild(row));
+    
+    // Update the games counter after sorting
+    const visibleCount = rows.filter(row => row.style.display !== 'none').length;
+    document.getElementById('gamesCount').textContent = visibleCount;
 }
 
 document.querySelectorAll('.sortable').forEach(header => {
@@ -1142,7 +1166,7 @@ function filterGames() {
     const minPlayers = parseInt(document.getElementById('min-players').value) || 1;
     activeFilters.minPlayers = minPlayers;
     
-    console.log('Filtering with minPlayers:', minPlayers); // Debug log
+    let visibleCount = 0;
     
     gameItems.forEach(item => {
         const platform = item.dataset.platform;
@@ -1151,15 +1175,11 @@ function filterGames() {
         const hasImage = item.dataset.hasImage === 'true';
         const players = parseInt(item.dataset.players) || 0;
         
-        console.log('Game players:', players); // Debug log
-        
         const platformMatch = activeFilters.platforms.length === 0 || activeFilters.platforms.includes(platform);
         const genreMatch = activeFilters.genres.length === 0 || activeFilters.genres.includes(genre);
         const lanMatch = activeFilters.lan ? lan : true;
         const imageMatch = !activeFilters.noImage || !hasImage;
         const playersMatch = players >= minPlayers;
-        
-        console.log('Players match:', playersMatch, 'for game with', players, 'players'); // Debug log
         
         const shouldShow = platformMatch && genreMatch && lanMatch && imageMatch && playersMatch;
         
@@ -1168,7 +1188,14 @@ function filterGames() {
         } else {
             item.style.display = shouldShow ? 'table-row' : 'none';
         }
+        
+        if (shouldShow) {
+            visibleCount++;
+        }
     });
+    
+    // Update the games counter
+    document.getElementById('gamesCount').textContent = visibleCount;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
