@@ -4,7 +4,7 @@ FROM python:3.12-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV CSRF_TRUSTED_ORIGINS=""
+ENV CSRF_TRUSTED_ORIGINS="https://your.domain.com"
 ENV DJANGO_SUPERUSER_USERNAME="admin"
 ENV DJANGO_SUPERUSER_EMAIL="admin@admin.com"
 ENV DJANGO_SUPERUSER_PASSWORD="admin"
@@ -38,10 +38,10 @@ RUN mkdir -p /app/database /app/media /app/staticfiles \
     && chmod -R 777 /app/database /app/media /app/staticfiles \
     && chmod -R 755 /app/docker-entrypoint.sh
 
-# Create migrations and compile messages during build
-RUN python manage.py makemigrations \
-    && python manage.py migrate \
-    && python manage.py compilemessages
+# # Create migrations and compile messages during build
+# RUN python manage.py makemigrations \
+#     && python manage.py migrate \
+#     && python manage.py compilemessages
 
 # Create a non-root user and switch to it
 RUN useradd -m -u 1000 appuser \
