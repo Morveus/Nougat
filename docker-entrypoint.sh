@@ -10,7 +10,7 @@ if [ ! -f "/app/database/db.sqlite3" ]; then
     echo "Creating superuser..."
     echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('${DJANGO_SUPERUSER_USERNAME:-admin}', '${DJANGO_SUPERUSER_EMAIL:-admin@admin.com}', '${DJANGO_SUPERUSER_PASSWORD:-admin}')" | python manage.py shell
 else
-    echo "Database exists, running migrations..."
+    echo "Checking for pending migrations..."
     python manage.py migrate
 fi
 

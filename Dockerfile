@@ -17,6 +17,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         gcc \
         python3-dev \
+        gettext \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements file
@@ -36,6 +37,11 @@ COPY . /app/
 RUN mkdir -p /app/database /app/media /app/staticfiles \
     && chmod -R 777 /app/database /app/media /app/staticfiles \
     && chmod -R 755 /app/docker-entrypoint.sh
+
+# Create migrations and compile messages during build
+RUN python manage.py makemigrations \
+    && python manage.py migrate \
+    && python manage.py compilemessages
 
 # Create a non-root user and switch to it
 RUN useradd -m -u 1000 appuser \
